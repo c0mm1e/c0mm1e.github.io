@@ -5,16 +5,12 @@
     <url>/1980/01/01/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
       <categories>
@@ -22,6 +18,57 @@
       </categories>
       <tags>
         <tag>Hello World</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python实现RSA解密</title>
+    <url>/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<p>RSA加密算法是一种非对称加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先简要介绍RSA加密的原理，再介绍如何使用Python进行解密。</p>
+<h1 id="RSA加密"><a href="#RSA加密" class="headerlink" title="RSA加密"></a>RSA加密</h1><h2 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h2><p>第一步：任取不相等的两质数$p,q$。（此处$p,q$的大小决定了破译难度）</p>
+<p>第二步：$n=pq$。（$n$的二进制的长度即为密钥长度)</p>
+<p>第三步：计算$n$的Euler函数$φ(n) = (p-1)(q-1)$。</p>
+<p>第四步：任取整数$e$满足$1&lt;e&lt;φ(n)$，且$e$与$φ(n)$互质。</p>
+<p>第五步：计算出$e$对于$φ(n)$的模反元素$d$。</p>
+<p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
+<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
+<h1 id="RSA解密"><a href="#RSA解密" class="headerlink" title="RSA解密"></a>RSA解密</h1><p>首先，我们需要了解以下两个算法：</p>
+<h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
+<p>由Bézout定理可知，存在整数$x,y$使得$ax+by=gcd(a,b)$成立。</p>
+<p>相较于Euclidean算法，扩展Euclidean算法除了计算$gcd(a,b)$，还会得到$x,y$的值。</p>
+<p>代码如下：</p>
+<p>（非递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
+<p>（递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
+<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
+<p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
+<p>$x_0=a$</p>
+<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
+<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可证$c^d\equiv m({\rm mod}\ n)$，下给出证明过程：</p>
+<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
+<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得证。</p>
+<p>因此，如果已知$(n,d,c)$，结合Square-and-Multiply算法即可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#确保d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>Python</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
