@@ -39,9 +39,11 @@
       <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="a" scheme="https://c0mm1e.github.io/tags/a/"/>
+      <category term="Python" scheme="https://c0mm1e.github.io/tags/Python/"/>
     
-      <category term="b" scheme="https://c0mm1e.github.io/tags/b/"/>
+      <category term="密码学" scheme="https://c0mm1e.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+      <category term="算法" scheme="https://c0mm1e.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
