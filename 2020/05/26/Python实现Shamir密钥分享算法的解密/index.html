@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Python,密码学,算法," />
+  <meta name="keywords" content="密码学,Python,算法," />
 
 
 
@@ -86,8 +86,8 @@
 <meta property="article:published_time" content="2020-05-26T06:01:56.000Z">
 <meta property="article:modified_time" content="2020-05-26T06:01:56.000Z">
 <meta property="article:author" content="c0mm1e">
-<meta property="article:tag" content="Python">
 <meta property="article:tag" content="密码学">
+<meta property="article:tag" content="Python">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
@@ -404,7 +404,60 @@
 <p>$f(x)=\sum\limits^k_{j=1} {(f(x_{i_j})\prod\limits^k_{m\not =j} {\frac {x-x_{i_m}} {x_{i_j}-x_{i_m}} )} }$</p>
 <p>（注意：Lagrange基本多项式的除法是在$\mathbb Z_p$中的，即等价于乘以除数的逆）</p>
 <p>代码如下（其中的EEA已在《Python实现RSA算法的解密》中提及，不再赘述）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=1</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tsss</span><span class="params">(s_dict,n,k,p)</span>:</span></span><br><span class="line">    <span class="comment"># s_dict is </span></span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n): </span><br><span class="line">        up=<span class="number">1</span></span><br><span class="line">        down=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): </span><br><span class="line">            <span class="keyword">if</span> i!=j: </span><br><span class="line">                up*=-s_dict[j][<span class="number">0</span>]</span><br><span class="line">                down*=s_dict[i][<span class="number">0</span>]-s_dict[j][<span class="number">0</span>]</span><br><span class="line">        delta=(up*eea(down,p)[<span class="number">1</span>])%p</span><br><span class="line">        s+=delta*s_dict[i][<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> s%p</span><br><span class="line"><span class="comment"># There is a testcase below</span></span><br><span class="line">print(tsss([(<span class="number">1</span>,<span class="number">8</span>),(<span class="number">3</span>,<span class="number">10</span>),(<span class="number">5</span>,<span class="number">11</span>)],<span class="number">3</span>,<span class="number">5</span>,<span class="number">17</span>)) <span class="comment"># It prints 13</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tsss</span><span class="params">(s_dict,n,k,p)</span>:</span></span><br><span class="line">    <span class="comment"># s_dict is </span></span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n): </span><br><span class="line">        up=<span class="number">1</span></span><br><span class="line">        down=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): </span><br><span class="line">            <span class="keyword">if</span> i!=j: </span><br><span class="line">                up*=-s_dict[j][<span class="number">0</span>]</span><br><span class="line">                down*=s_dict[i][<span class="number">0</span>]-s_dict[j][<span class="number">0</span>]</span><br><span class="line">        delta=(up*eea(down,p)[<span class="number">1</span>])%p</span><br><span class="line">        s+=delta*s_dict[i][<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> s%p</span><br><span class="line"><span class="comment"># There is a testcase below</span></span><br><span class="line">print(tsss([(<span class="number">1</span>,<span class="number">8</span>),(<span class="number">3</span>,<span class="number">10</span>),(<span class="number">5</span>,<span class="number">11</span>)],<span class="number">3</span>,<span class="number">5</span>,<span class="number">17</span>)) <span class="comment"># It prints 13</span></span><br></pre></td></tr></table></figure>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>解密由Shamir的$(5,9)$密钥分享算法加密的密文$s\in\mathbb Z_{1125899906900597}$。所有子密码拥有者的数据如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$i$</th>
+<th>$s_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>75044643784737</td>
+</tr>
+<tr>
+<td>2</td>
+<td>940519894412855</td>
+</tr>
+<tr>
+<td>3</td>
+<td>941263003333598</td>
+</tr>
+<tr>
+<td>4</td>
+<td>736739711411826</td>
+</tr>
+<tr>
+<td>5</td>
+<td>254180887785524</td>
+</tr>
+<tr>
+<td>6</td>
+<td>940382343666996</td>
+</tr>
+<tr>
+<td>7</td>
+<td>132205297839880</td>
+</tr>
+<tr>
+<td>8</td>
+<td>63775631863924</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1111084448671404</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s_dict=[(<span class="number">1</span>,<span class="number">75044643784737</span>),(<span class="number">2</span>,<span class="number">940519894412855</span>),(<span class="number">3</span>,<span class="number">941263003333598</span>),(<span class="number">4</span>,<span class="number">736739711411826</span>),(<span class="number">5</span>,<span class="number">254180887785524</span>),(<span class="number">6</span>,<span class="number">940382343666996</span>),(<span class="number">7</span>,<span class="number">132205297839880</span>),(<span class="number">8</span>,<span class="number">63775631863924</span>),(<span class="number">9</span>,<span class="number">1111084448671404</span>)]</span><br><span class="line">p=<span class="number">1125899906900597</span></span><br><span class="line">print(tsss(s_dict,<span class="number">5</span>,<span class="number">9</span>,p))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="number">330836359559300</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -440,9 +493,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
             <a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="tag"># 密码学</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
             <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           
@@ -466,6 +519,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/27/Python%E5%AE%9E%E7%8E%B0DH%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/" rel="prev" title="Python实现DH密钥协商算法的解密">
+                Python实现DH密钥协商算法的解密 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -546,7 +603,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -650,7 +707,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TSSS算法的加密"><span class="nav-number">1.</span> <span class="nav-text">TSSS算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造多项式"><span class="nav-number">1.1.</span> <span class="nav-text">构造多项式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分发密钥"><span class="nav-number">1.2.</span> <span class="nav-text">分发密钥</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TSSS算法的解密"><span class="nav-number">2.</span> <span class="nav-text">TSSS算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lagrange插值法"><span class="nav-number">2.1.</span> <span class="nav-text">Lagrange插值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.2.</span> <span class="nav-text">解密</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TSSS算法的加密"><span class="nav-number">1.</span> <span class="nav-text">TSSS算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造多项式"><span class="nav-number">1.1.</span> <span class="nav-text">构造多项式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分发密钥"><span class="nav-number">1.2.</span> <span class="nav-text">分发密钥</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TSSS算法的解密"><span class="nav-number">2.</span> <span class="nav-text">TSSS算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lagrange插值法"><span class="nav-number">2.1.</span> <span class="nav-text">Lagrange插值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.2.</span> <span class="nav-text">解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例题"><span class="nav-number">2.3.</span> <span class="nav-text">例题</span></a></li></ol></li></ol></div>
             
 
           </div>

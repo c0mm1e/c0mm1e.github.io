@@ -1,8 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python实现DH密钥协商算法的解密</title>
+    <url>/2020/05/27/Python%E5%AE%9E%E7%8E%B0DH%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>DH密钥协商是一种建立密钥的方法，而不是加密方法，由Whitefield与Martin Hellman在1976年共同提出。下文先简要介绍DH密钥协商的原理，再介绍如何使用Python进行解密。</p>
+<h1 id="建立密钥"><a href="#建立密钥" class="headerlink" title="建立密钥"></a>建立密钥</h1><p>任取大质数$q$，所有的运算都在$\mathbb Z_q$中进行。</p>
+<p>假设发送方为Alice，接收方为Bob，双方约定公开的DH参数$(q,g)$。</p>
+<p>Alice选择私钥$a$，并计算公钥$A=g^a\ ({\rm mod}\ q)$。</p>
+<p>Bob选择私钥$b$，并计算公钥$B=g^b\ ({\rm mod}\ q)$。</p>
+<p>Alice和Bob分别通过$s=B^a\ ({\rm mod}\ q)$和$s=A^b\ ({\rm mod}\ q)$计算密钥$s$。（由$B^a=g^{ab}=A^b\ ({\rm mod}\ q)$可确保Alice和Bob计算出的$s$是相同的）</p>
+<ul>
+<li>$q,g,A,B$是公开的，$a$只有Alice知道，$b$只有Bob知道。</li>
+</ul>
+<h1 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h1><p>DH密钥协商只能通过遍历解密，即对$a$（或$b$）进行从$1$至$q$的遍历并逐一验算是否满足$A=g^a\ ({\rm mod}\ q)$。</p>
+<p>代码如下（其中的EEA和SAM已在《Python实现RSA算法的解密》中提及，不再赘述）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dhke</span><span class="params">(q,g,A,B,limit)</span>:</span> </span><br><span class="line">    a=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> sam(g,a,q)!=A <span class="keyword">and</span> a&lt;=limit: </span><br><span class="line">        a+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> a&gt;limit:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span> </span><br><span class="line">    <span class="keyword">return</span> sam(B,a,q)</span><br></pre></td></tr></table></figure>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>假设Alice和Bob通过DH密钥协商交换了$(q,g,A,B)$，求生成的密钥$s$。特别地，${\rm log}_gA,{\rm log}_gB\leqslant 10^4$。$(q,g,A,B)$如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">q=<span class="number">179769313486231590772930519078902473361797697894230657273430081157732675805500963132708477322407536021120113879871393357658789768814416622492847430639474124377767893424865485276302219601246094119453082952085005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624227998859</span></span><br><span class="line">g=<span class="number">3</span></span><br><span class="line">A=<span class="number">112983575163002618947589666666735428181684517845144875096902910066434723952623016603393212501214127399908823223492478725971266042754892798177781267512821607470545283059472689034731313027619864228688466438258327552045437590203790635506728603774799021127049872571983254506993921153718739796769296097404717448108</span></span><br><span class="line">B=<span class="number">111772767805210239496365191691516881043394988196297062013853646674574743401042736447328886156429629192691601526398366088012736749454626686281467579205675084461989494513294624066074137247913037330040487275346913253345733429767781900977102687185378411660147190296412313303321533586102552123457499563789255321369</span></span><br></pre></td></tr></table></figure>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(dhke(q,g,A,B,<span class="number">10000</span>))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s=<span class="number">10828112783453462381041707802056149866596392072243903940987459672779260675319522663099080388770903982546250524992420350200207624327420612300170620802665302905750045777684348125827484365007590718638373187936889967309324722655294992225815410914105072210725045953105019352457540772995508978315699107247398350128</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>Python</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python实现RSA算法的解密</title>
+    <url>/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>RSA加密算法是一种非对称加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先简要介绍RSA加密的原理，再介绍如何使用Python进行解密。</p>
+<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h2><p>第一步：任取不相等的两质数$p,q$。（此处$p,q$的大小决定了破译难度）</p>
+<p>第二步：$n=pq$。（$n$的二进制的长度即为密钥长度)</p>
+<p>第三步：计算$n$的Euler函数$φ(n) = (p-1)(q-1)$。</p>
+<p>第四步：任取整数$e$满足$1&lt;e&lt;φ(n)$，且$e$与$φ(n)$互质。</p>
+<p>第五步：计算出$e$对于$φ(n)$的模反元素$d$。</p>
+<p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
+<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
+<ul>
+<li>$n,e,c$是公开的，$p,q,φ(n),d,m$是私密的。</li>
+</ul>
+<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我们需要了解以下两个算法：</p>
+<h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
+<p>由Bézout定理可知，存在整数$x,y$使得$ax+by=gcd(a,b)$成立。</p>
+<p>相较于Euclidean算法，扩展Euclidean算法除了计算$gcd(a,b)$，还会得到$x,y$的值。</p>
+<p>代码如下：</p>
+<p>（非递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
+<p>（递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
+<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
+<p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
+<p>$x_0=a$</p>
+<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
+<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可证$c^d\equiv m({\rm mod}\ n)$，下给出证明过程：</p>
+<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
+<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得证。</p>
+<p>因此，如果已知$(n,d,c)$，结合Square-and-Multiply算法即可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>对密文$c$在RSA中进行解密，已知</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>Python</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python实现Shamir密钥分享算法的解密</title>
+    <url>/2020/05/26/Python%E5%AE%9E%E7%8E%B0Shamir%E5%AF%86%E9%92%A5%E5%88%86%E4%BA%AB%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Shamir的$(k,n)$密钥分享算法将秘密分为$n$个子秘密，任意$k$个子秘密都可以恢复出$s$，而任意$k-1$个子秘密无法恢复出$s$。</p>
+<p>Shamir密钥分享算法（TSSS）最早由Shamir和Blackly在1970年基于Lagrange插值法提出。下文先简要介绍Shamir密钥分享算法加密的原理，再介绍如何使用Python进行解密。</p>
+<h1 id="TSSS算法的加密"><a href="#TSSS算法的加密" class="headerlink" title="TSSS算法的加密"></a>TSSS算法的加密</h1><p>Shamir的$(k,n)$密钥分享算法将秘密分为$n$个子秘密，任意$k$个子秘密都可以恢复密文$s$，而任意小于$k$个子秘密无法得到$s$的任何信息。</p>
+<h2 id="构造多项式"><a href="#构造多项式" class="headerlink" title="构造多项式"></a>构造多项式</h2><p>第一步：对于密文$s$，设其满足$s\in\mathbb Z_p$，其中$p&gt;k$。（确保所有的运算都在有限域$\mathbb Z_p$中进行）</p>
+<p>第二步：令$a_0=s$，并任取$k-1$个整数$a_1,a_2,…,a_{k-1}\in\mathbb Z_p$。</p>
+<p>第三步：定义多项式$f(x)=\sum\limits^{k-1}_{i=0} {a_ix^i}({\rm mod}\ p)$。</p>
+<h2 id="分发密钥"><a href="#分发密钥" class="headerlink" title="分发密钥"></a>分发密钥</h2><p>第一步：任取$n$个数$x_1,x_2,…,x_n$，分别计算$f(x_1),f(x_2),…,f(x_n)$。（一般可取$x_i=i$）</p>
+<p>第二步：对于$n$个对象$P_1,P_2,…,P_n$。$\forall 1\leqslant i\leqslant n$，将$(x_i,f(x_i))$发送给$P_i$。</p>
+<h1 id="TSSS算法的解密"><a href="#TSSS算法的解密" class="headerlink" title="TSSS算法的解密"></a>TSSS算法的解密</h1><p>首先，我们需要了解Lagrange插值法。</p>
+<h2 id="Lagrange插值法"><a href="#Lagrange插值法" class="headerlink" title="Lagrange插值法"></a>Lagrange插值法</h2><p>对于$n+1$个数值对$(x_0,y_0),(x_1,y_1),…,(x_n,y_n)$（其中$x_i$互不相同），有且仅有一个次数不超过$n$的多项式$L(x)$对$\forall 0\leqslant i\leqslant n$，$L(x_i)=y_i$，此多项式即为Lagrange插值多项式，其表达式为：</p>
+<p>$L(x)=\sum\limits^n_{j=0} {y_jl_j(x)}$</p>
+<p>其中$l_j(x)$为Lagrange基本多项式，其表达式为：</p>
+<p>$l_j(x)=\prod\limits^n_{i\not =j} {\frac {x-x_i} {x_j-x_i} }\ (0\leqslant j\leqslant n)$</p>
+<p>可以注意到，$l_j(x_i)=\begin{cases} 1\ (i=j)\\0\ (i\not=j) \end{cases}\ (0\leqslant i\leqslant n)$。</p>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>设现已有$k$个对象$P_{i_1},P_{i_2},…,P_{i_k}$的数据$(x_{i_1},f(x_{i_1})),(x_{i_2},f(x_{i_2})),…,(x_{i_k},f(x_{i_k}))$。</p>
+<p>由于多项式$f(x)$的次数不超过$k-1$，又有对应的$k$个数值对，因此$f(x)$为Lagrange插值多项式。</p>
+<p>$f(x)=\sum\limits^k_{j=1} {(f(x_{i_j})\prod\limits^k_{m\not =j} {\frac {x-x_{i_m}} {x_{i_j}-x_{i_m}} )} }$</p>
+<p>（注意：Lagrange基本多项式的除法是在$\mathbb Z_p$中的，即等价于乘以除数的逆）</p>
+<p>代码如下（其中的EEA已在《Python实现RSA算法的解密》中提及，不再赘述）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tsss</span><span class="params">(s_dict,n,k,p)</span>:</span></span><br><span class="line">    <span class="comment"># s_dict is </span></span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n): </span><br><span class="line">        up=<span class="number">1</span></span><br><span class="line">        down=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): </span><br><span class="line">            <span class="keyword">if</span> i!=j: </span><br><span class="line">                up*=-s_dict[j][<span class="number">0</span>]</span><br><span class="line">                down*=s_dict[i][<span class="number">0</span>]-s_dict[j][<span class="number">0</span>]</span><br><span class="line">        delta=(up*eea(down,p)[<span class="number">1</span>])%p</span><br><span class="line">        s+=delta*s_dict[i][<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> s%p</span><br><span class="line"><span class="comment"># There is a testcase below</span></span><br><span class="line">print(tsss([(<span class="number">1</span>,<span class="number">8</span>),(<span class="number">3</span>,<span class="number">10</span>),(<span class="number">5</span>,<span class="number">11</span>)],<span class="number">3</span>,<span class="number">5</span>,<span class="number">17</span>)) <span class="comment"># It prints 13</span></span><br></pre></td></tr></table></figure>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>解密由Shamir的$(5,9)$密钥分享算法加密的密文$s\in\mathbb Z_{1125899906900597}$。所有子密码拥有者的数据如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$i$</th>
+<th>$s_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>75044643784737</td>
+</tr>
+<tr>
+<td>2</td>
+<td>940519894412855</td>
+</tr>
+<tr>
+<td>3</td>
+<td>941263003333598</td>
+</tr>
+<tr>
+<td>4</td>
+<td>736739711411826</td>
+</tr>
+<tr>
+<td>5</td>
+<td>254180887785524</td>
+</tr>
+<tr>
+<td>6</td>
+<td>940382343666996</td>
+</tr>
+<tr>
+<td>7</td>
+<td>132205297839880</td>
+</tr>
+<tr>
+<td>8</td>
+<td>63775631863924</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1111084448671404</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s_dict=[(<span class="number">1</span>,<span class="number">75044643784737</span>),(<span class="number">2</span>,<span class="number">940519894412855</span>),(<span class="number">3</span>,<span class="number">941263003333598</span>),(<span class="number">4</span>,<span class="number">736739711411826</span>),(<span class="number">5</span>,<span class="number">254180887785524</span>),(<span class="number">6</span>,<span class="number">940382343666996</span>),(<span class="number">7</span>,<span class="number">132205297839880</span>),(<span class="number">8</span>,<span class="number">63775631863924</span>),(<span class="number">9</span>,<span class="number">1111084448671404</span>)]</span><br><span class="line">p=<span class="number">1125899906900597</span></span><br><span class="line">print(tsss(s_dict,<span class="number">5</span>,<span class="number">9</span>,p))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s=<span class="number">330836359559300</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>Python</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pygame小游戏-Alien Invasion</title>
+    <url>/2020/05/26/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion!!/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Pygame</tag>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python中得到绝对路径的方法</title>
+    <url>/2020/05/15/Python%E4%B8%AD%E5%BE%97%E5%88%B0%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先，我们知道相对路径其实就是py文件所在的文件夹的路径，例如1.py和1.txt在同一目录下，1.txt关于1.py的相对路径即为1.txt。</p>
+<p>不过最近当我使用VScode运行一个py文件时，使用相对路径却出现了报错：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FileNotFoundError: [Errno 2] No such file or directory: &#39;1.txt&#39;</span><br></pre></td></tr></table></figure>
+<p>这说明相对路径的兼容性并不高，因此有必要将相对路径改为绝对路径。这里提供两种得到绝对路径的方法。以上文的1.py和1.txt为例：</p>
+<ol>
+<li><p>使用sys.path</p>
+<p>sys模块包含了与Python解释器和它的环境有关的函数，而sys.path是模块搜索路径的字符串列表，其中的第一项path[0]是包含用来调用Python解释器的脚本的目录。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">absolute_path=sys.path[<span class="number">0</span>]+<span class="string">'/'</span>+relative_path</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用globals()</p>
+<p>globals()是Python的一个内置函数，返回存储有访问全局变量的方式的字典，而’<strong><strong>file</strong></strong>‘键所对应的值即是py文件的绝对路径。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">absolute_path=globals()[<span class="string">'__file__'</span>][:len(globals()[<span class="string">'__file__'</span>])-globals()[<span class="string">'__file__'</span>][::<span class="number">-1</span>].find(<span class="string">'\\'</span>)]+relative_path</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其实对于相对路径，PowerShell是可以识别的，因此可能是VScode的某项配置出了问题。不过使用绝对路径是没有任何坏处的，所以还是建议尽量使用绝对路径以获得更好的兼容性。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wallpaper Engine中图片文件的提取</title>
+    <url>/2020/05/15/Wallpaper%20Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96!!/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
+]]></content>
+      <categories>
+        <category>软件使用</category>
+      </categories>
+      <tags>
+        <tag>Wallpaper Engine</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Bang Dream翻唱曲出处总结</title>
-    <url>/2020/05/15/Bang-Dream%E7%BF%BB%E5%94%B1%E6%9B%B2%E5%87%BA%E5%A4%84%E6%80%BB%E7%BB%93!!/</url>
+    <url>/2020/05/15/Bang%20Dream%E7%BF%BB%E5%94%B1%E6%9B%B2%E5%87%BA%E5%A4%84%E6%80%BB%E7%BB%93!!/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="国服"><a href="#国服" class="headerlink" title="国服"></a>国服</h1><div class="table-container">
 <table>
 <thead>
@@ -317,141 +545,6 @@
       </categories>
       <tags>
         <tag>邦邦</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Pygame小游戏-Alien Invasion</title>
-    <url>/2020/05/26/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien-Invasion!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Pygame</tag>
-        <tag>游戏</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python实现RSA算法的解密</title>
-    <url>/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>RSA加密算法是一种非对称加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先简要介绍RSA加密的原理，再介绍如何使用Python进行解密。</p>
-<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h2><p>第一步：任取不相等的两质数$p,q$。（此处$p,q$的大小决定了破译难度）</p>
-<p>第二步：$n=pq$。（$n$的二进制的长度即为密钥长度)</p>
-<p>第三步：计算$n$的Euler函数$φ(n) = (p-1)(q-1)$。</p>
-<p>第四步：任取整数$e$满足$1&lt;e&lt;φ(n)$，且$e$与$φ(n)$互质。</p>
-<p>第五步：计算出$e$对于$φ(n)$的模反元素$d$。</p>
-<p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
-<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
-<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
-<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我们需要了解以下两个算法：</p>
-<h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
-<p>由Bézout定理可知，存在整数$x,y$使得$ax+by=gcd(a,b)$成立。</p>
-<p>相较于Euclidean算法，扩展Euclidean算法除了计算$gcd(a,b)$，还会得到$x,y$的值。</p>
-<p>代码如下：</p>
-<p>（非递归）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
-<p>（递归）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
-<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
-<p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
-<p>$x_0=a$</p>
-<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
-<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可证$c^d\equiv m({\rm mod}\ n)$，下给出证明过程：</p>
-<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
-<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得证。</p>
-<p>因此，如果已知$(n,d,c)$，结合Square-and-Multiply算法即可得到原文$m$，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>密码学</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python中得到绝对路径的方法</title>
-    <url>/2020/05/15/Python%E4%B8%AD%E5%BE%97%E5%88%B0%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E7%9A%84%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先，我们知道相对路径其实就是py文件所在的文件夹的路径，例如1.py和1.txt在同一目录下，1.txt关于1.py的相对路径即为1.txt。</p>
-<p>不过最近当我使用VScode运行一个py文件时，使用相对路径却出现了报错：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FileNotFoundError: [Errno 2] No such file or directory: &#39;1.txt&#39;</span><br></pre></td></tr></table></figure>
-<p>这说明相对路径的兼容性并不高，因此有必要将相对路径改为绝对路径。这里提供两种得到绝对路径的方法。以上文的1.py和1.txt为例：</p>
-<ol>
-<li><p>使用sys.path</p>
-<p>sys模块包含了与Python解释器和它的环境有关的函数，而sys.path是模块搜索路径的字符串列表，其中的第一项path[0]是包含用来调用Python解释器的脚本的目录。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">absolute_path=sys.path[<span class="number">0</span>]+<span class="string">'/'</span>+relative_path</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用globals()</p>
-<p>globals()是Python的一个内置函数，返回存储有访问全局变量的方式的字典，而’<strong><strong>file</strong></strong>‘键所对应的值即是py文件的绝对路径。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">absolute_path=globals()[<span class="string">'__file__'</span>][:len(globals()[<span class="string">'__file__'</span>])-globals()[<span class="string">'__file__'</span>][::<span class="number">-1</span>].find(<span class="string">'\\'</span>)]+relative_path</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>其实对于相对路径，PowerShell是可以识别的，因此可能是VScode的某项配置出了问题。不过使用绝对路径是没有任何坏处的，所以还是建议尽量使用绝对路径以获得更好的兼容性。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python实现Shamir密钥分享算法的解密</title>
-    <url>/2020/05/26/Python%E5%AE%9E%E7%8E%B0Shamir%E5%AF%86%E9%92%A5%E5%88%86%E4%BA%AB%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Shamir的$(k,n)$密钥分享算法将秘密分为$n$个子秘密，任意$k$个子秘密都可以恢复出$s$，而任意$k-1$个子秘密无法恢复出$s$。</p>
-<p>Shamir密钥分享算法（TSSS）最早由Shamir和Blackly在1970年基于Lagrange插值法提出。下文先简要介绍Shamir密钥分享算法加密的原理，再介绍如何使用Python进行解密。</p>
-<h1 id="TSSS算法的加密"><a href="#TSSS算法的加密" class="headerlink" title="TSSS算法的加密"></a>TSSS算法的加密</h1><p>Shamir的$(k,n)$密钥分享算法将秘密分为$n$个子秘密，任意$k$个子秘密都可以恢复密文$s$，而任意小于$k$个子秘密无法得到$s$的任何信息。</p>
-<h2 id="构造多项式"><a href="#构造多项式" class="headerlink" title="构造多项式"></a>构造多项式</h2><p>第一步：对于密文$s$，设其满足$s\in\mathbb Z_p$，其中$p&gt;k$。（确保所有的运算都在有限域$\mathbb Z_p$中进行）</p>
-<p>第二步：令$a_0=s$，并任取$k-1$个整数$a_1,a_2,…,a_{k-1}\in\mathbb Z_p$。</p>
-<p>第三步：定义多项式$f(x)=\sum\limits^{k-1}_{i=0} {a_ix^i}({\rm mod}\ p)$。</p>
-<h2 id="分发密钥"><a href="#分发密钥" class="headerlink" title="分发密钥"></a>分发密钥</h2><p>第一步：任取$n$个数$x_1,x_2,…,x_n$，分别计算$f(x_1),f(x_2),…,f(x_n)$。（一般可取$x_i=i$）</p>
-<p>第二步：对于$n$个对象$P_1,P_2,…,P_n$。$\forall 1\leqslant i\leqslant n$，将$(x_i,f(x_i))$发送给$P_i$。</p>
-<h1 id="TSSS算法的解密"><a href="#TSSS算法的解密" class="headerlink" title="TSSS算法的解密"></a>TSSS算法的解密</h1><p>首先，我们需要了解Lagrange插值法。</p>
-<h2 id="Lagrange插值法"><a href="#Lagrange插值法" class="headerlink" title="Lagrange插值法"></a>Lagrange插值法</h2><p>对于$n+1$个数值对$(x_0,y_0),(x_1,y_1),…,(x_n,y_n)$（其中$x_i$互不相同），有且仅有一个次数不超过$n$的多项式$L(x)$对$\forall 0\leqslant i\leqslant n$，$L(x_i)=y_i$，此多项式即为Lagrange插值多项式，其表达式为：</p>
-<p>$L(x)=\sum\limits^n_{j=0} {y_jl_j(x)}$</p>
-<p>其中$l_j(x)$为Lagrange基本多项式，其表达式为：</p>
-<p>$l_j(x)=\prod\limits^n_{i\not =j} {\frac {x-x_i} {x_j-x_i} }\ (0\leqslant j\leqslant n)$</p>
-<p>可以注意到，$l_j(x_i)=\begin{cases} 1\ (i=j)\\0\ (i\not=j) \end{cases}\ (0\leqslant i\leqslant n)$。</p>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>设现已有$k$个对象$P_{i_1},P_{i_2},…,P_{i_k}$的数据$(x_{i_1},f(x_{i_1})),(x_{i_2},f(x_{i_2})),…,(x_{i_k},f(x_{i_k}))$。</p>
-<p>由于多项式$f(x)$的次数不超过$k-1$，又有对应的$k$个数值对，因此$f(x)$为Lagrange插值多项式。</p>
-<p>$f(x)=\sum\limits^k_{j=1} {(f(x_{i_j})\prod\limits^k_{m\not =j} {\frac {x-x_{i_m}} {x_{i_j}-x_{i_m}} )} }$</p>
-<p>（注意：Lagrange基本多项式的除法是在$\mathbb Z_p$中的，即等价于乘以除数的逆）</p>
-<p>代码如下（其中的EEA已在《Python实现RSA算法的解密》中提及，不再赘述）：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=1</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tsss</span><span class="params">(s_dict,n,k,p)</span>:</span></span><br><span class="line">    <span class="comment"># s_dict is </span></span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n): </span><br><span class="line">        up=<span class="number">1</span></span><br><span class="line">        down=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): </span><br><span class="line">            <span class="keyword">if</span> i!=j: </span><br><span class="line">                up*=-s_dict[j][<span class="number">0</span>]</span><br><span class="line">                down*=s_dict[i][<span class="number">0</span>]-s_dict[j][<span class="number">0</span>]</span><br><span class="line">        delta=(up*eea(down,p)[<span class="number">1</span>])%p</span><br><span class="line">        s+=delta*s_dict[i][<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> s%p</span><br><span class="line"><span class="comment"># There is a testcase below</span></span><br><span class="line">print(tsss([(<span class="number">1</span>,<span class="number">8</span>),(<span class="number">3</span>,<span class="number">10</span>),(<span class="number">5</span>,<span class="number">11</span>)],<span class="number">3</span>,<span class="number">5</span>,<span class="number">17</span>)) <span class="comment"># It prints 13</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>密码学</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Wallpaper Engine中图片文件的提取</title>
-    <url>/2020/05/15/Wallpaper-Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
-]]></content>
-      <categories>
-        <category>软件使用</category>
-      </categories>
-      <tags>
-        <tag>Wallpaper Engine</tag>
       </tags>
   </entry>
   <entry>

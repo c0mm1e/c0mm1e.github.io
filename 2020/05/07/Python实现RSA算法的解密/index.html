@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Python,密码学,算法," />
+  <meta name="keywords" content="密码学,Python,算法," />
 
 
 
@@ -86,8 +86,8 @@
 <meta property="article:published_time" content="2020-05-07T02:31:08.000Z">
 <meta property="article:modified_time" content="2020-05-07T02:31:08.000Z">
 <meta property="article:author" content="c0mm1e">
-<meta property="article:tag" content="Python">
 <meta property="article:tag" content="密码学">
+<meta property="article:tag" content="Python">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
@@ -394,6 +394,9 @@
 <p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
 <h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
 <p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
+<ul>
+<li>$n,e,c$是公开的，$p,q,φ(n),d,m$是私密的。</li>
+</ul>
 <h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我们需要了解以下两个算法：</p>
 <h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
@@ -403,7 +406,7 @@
 <p>（非递归）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
 <p>（递归）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
 <h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
 <p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
 <p>$x_0=a$</p>
@@ -423,6 +426,12 @@
 <p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
 <p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>对密文$c$在RSA中进行解密，已知</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -458,9 +467,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
             <a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="tag"># 密码学</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
             <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           
@@ -564,7 +573,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -668,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的加密"><span class="nav-number">1.</span> <span class="nav-text">RSA算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成公钥和私钥"><span class="nav-number">1.1.</span> <span class="nav-text">生成公钥和私钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密"><span class="nav-number">1.2.</span> <span class="nav-text">加密</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的解密"><span class="nav-number">2.</span> <span class="nav-text">RSA算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展Euclidean算法-EEA"><span class="nav-number">2.1.</span> <span class="nav-text">扩展Euclidean算法 (EEA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Square-and-Multiply算法-SAMA"><span class="nav-number">2.2.</span> <span class="nav-text">Square-and-Multiply算法 (SAMA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.3.</span> <span class="nav-text">解密</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的加密"><span class="nav-number">1.</span> <span class="nav-text">RSA算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成公钥和私钥"><span class="nav-number">1.1.</span> <span class="nav-text">生成公钥和私钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密"><span class="nav-number">1.2.</span> <span class="nav-text">加密</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的解密"><span class="nav-number">2.</span> <span class="nav-text">RSA算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展Euclidean算法-EEA"><span class="nav-number">2.1.</span> <span class="nav-text">扩展Euclidean算法 (EEA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Square-and-Multiply算法-SAMA"><span class="nav-number">2.2.</span> <span class="nav-text">Square-and-Multiply算法 (SAMA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.3.</span> <span class="nav-text">解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例题"><span class="nav-number">2.4.</span> <span class="nav-text">例题</span></a></li></ol></li></ol></div>
             
 
           </div>
