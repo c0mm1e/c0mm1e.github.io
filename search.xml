@@ -320,105 +320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Pygame小游戏-Alien Invasion</title>
-    <url>/2020/05/26/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Pygame</tag>
-        <tag>游戏</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python实现RSA算法的解密</title>
-    <url>/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>RSA加密算法是一种非对称加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先简要介绍RSA加密的原理，再介绍如何使用Python进行解密。</p>
-<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h2><p>第一步：任取不相等的两质数$p,q$。（此处$p,q$的大小决定了破译难度）</p>
-<p>第二步：$n=pq$。（$n$的二进制的长度即为密钥长度)</p>
-<p>第三步：计算$n$的Euler函数$φ(n) = (p-1)(q-1)$。</p>
-<p>第四步：任取整数$e$满足$1&lt;e&lt;φ(n)$，且$e$与$φ(n)$互质。</p>
-<p>第五步：计算出$e$对于$φ(n)$的模反元素$d$。</p>
-<p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
-<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
-<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
-<ul>
-<li>$n,e,c$是公开的，$p,q,φ(n),d,m$是私密的。</li>
-</ul>
-<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我们需要了解以下两个算法：</p>
-<h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
-<p>由Bézout定理可知，存在整数$x,y$使得$ax+by=gcd(a,b)$成立。</p>
-<p>相较于Euclidean算法，扩展Euclidean算法除了计算$gcd(a,b)$，还会得到$x,y$的值。</p>
-<p>代码如下：</p>
-<p>（非递归）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
-<p>（递归）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
-<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
-<p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
-<p>$x_0=a$</p>
-<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
-<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可证$c^d\equiv m({\rm mod}\ n)$，下给出证明过程：</p>
-<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
-<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得证。</p>
-<p>因此，如果已知$(n,d,c)$，结合Square-and-Multiply算法即可得到原文$m$，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
-<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>对密文$c$在RSA中进行解密，已知</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
-<p>使用代码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
-<p>可得</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>密码学</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Wallpaper Engine中图片文件的提取</title>
-    <url>/2020/05/15/Wallpaper%20Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
-]]></content>
-      <categories>
-        <category>软件使用</category>
-      </categories>
-      <tags>
-        <tag>Wallpaper Engine</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>利用Python编写星际争霸2的简单脚本</title>
-    <url>/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>游戏</tag>
-        <tag>星际争霸2</tag>
-        <tag>pysc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python中得到绝对路径的方法</title>
     <url>/2020/05/15/Python%E4%B8%AD%E5%BE%97%E5%88%B0%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E7%9A%84%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先，我们知道相对路径其实就是py文件所在的文件夹的路径，例如1.py和1.txt在同一目录下，1.txt关于1.py的相对路径即为1.txt。</p>
@@ -442,6 +343,32 @@
       </categories>
       <tags>
         <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pygame小游戏-Alien Invasion</title>
+    <url>/2020/05/26/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion!!/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Pygame</tag>
+        <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wallpaper Engine中图片文件的提取</title>
+    <url>/2020/05/15/Wallpaper%20Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96!!/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
+]]></content>
+      <categories>
+        <category>软件使用</category>
+      </categories>
+      <tags>
+        <tag>Wallpaper Engine</tag>
       </tags>
   </entry>
   <entry>
@@ -551,6 +478,80 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s_dict=[(<span class="number">1</span>,<span class="number">75044643784737</span>),(<span class="number">2</span>,<span class="number">940519894412855</span>),(<span class="number">3</span>,<span class="number">941263003333598</span>),(<span class="number">4</span>,<span class="number">736739711411826</span>),(<span class="number">5</span>,<span class="number">254180887785524</span>),(<span class="number">6</span>,<span class="number">940382343666996</span>),(<span class="number">7</span>,<span class="number">132205297839880</span>),(<span class="number">8</span>,<span class="number">63775631863924</span>),(<span class="number">9</span>,<span class="number">1111084448671404</span>)]</span><br><span class="line">p=<span class="number">1125899906900597</span></span><br><span class="line">print(tsss(s_dict,<span class="number">5</span>,<span class="number">9</span>,p))</span><br></pre></td></tr></table></figure>
 <p>可得</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s=<span class="number">330836359559300</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>密码学</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用Python编写星际争霸2的简单脚本</title>
+    <url>/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>游戏</tag>
+        <tag>星际争霸2</tag>
+        <tag>pysc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python实现RSA算法的解密</title>
+    <url>/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>RSA加密算法是一种非对称加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先简要介绍RSA加密的原理，再介绍如何使用Python进行解密。</p>
+<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h2><p>第一步：任取不相等的两质数$p,q$。（此处$p,q$的大小决定了破译难度）</p>
+<p>第二步：$n=pq$。（$n$的二进制的长度即为密钥长度)</p>
+<p>第三步：计算$n$的Euler函数$φ(n) = (p-1)(q-1)$。</p>
+<p>第四步：任取整数$e$满足$1&lt;e&lt;φ(n)$，且$e$与$φ(n)$互质。</p>
+<p>第五步：计算出$e$对于$φ(n)$的模反元素$d$。</p>
+<p>第六步：公钥为$(n,e)$，私钥为$(n,d)$。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整数$m$。（此处$m&lt;n$）（若要加密字符串等，可用ASCII编码先转化为整数）</p>
+<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
+<ul>
+<li>$n,e,c$是公开的，$p,q,φ(n),d,m$是私密的。</li>
+</ul>
+<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我们需要了解以下两个算法：</p>
+<h2 id="扩展Euclidean算法-EEA"><a href="#扩展Euclidean算法-EEA" class="headerlink" title="扩展Euclidean算法 (EEA)"></a>扩展Euclidean算法 (EEA)</h2><p>对于两正整数$a,b$，我们有Euclidean算法（即辗转相除法）来计算$gcd(a,b)$：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
+<p>由Bézout定理可知，存在整数$x,y$使得$ax+by=gcd(a,b)$成立。</p>
+<p>相较于Euclidean算法，扩展Euclidean算法除了计算$gcd(a,b)$，还会得到$x,y$的值。</p>
+<p>代码如下：</p>
+<p>（非递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
+<p>（递归）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
+<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>对于三正整数$a,e,n$，我们有Square-and-Multiply算法来计算$a^e({\rm mod}\ n)$，其原理是：</p>
+<p>取$e$的二进制$e=(e_{k-1}…e_0)_2$（其中$k$为$e$的二进制的长度），则有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
+<p>$x_0=a$</p>
+<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
+<p>$…$</p>
+<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
+<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可证$c^d\equiv m({\rm mod}\ n)$，下给出证明过程：</p>
+<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
+<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得证。</p>
+<p>因此，如果已知$(n,d,c)$，结合Square-and-Multiply算法即可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>同理，如果已知$(p,q,e,c)$，结合扩展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
+<p>这是因为由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，对$(e,φ(n))$使用扩展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知对$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此处也说明$d$必须是正数）。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>对密文$c$在RSA中进行解密，已知</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
+<p>使用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>技术</category>
