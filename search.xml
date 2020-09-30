@@ -20,18 +20,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Wallpaper Engine中图片文件的提取</title>
-    <url>/2020/05/15/Wallpaper%20Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>test</p>
-]]></content>
-      <categories>
-        <category>软件使用</category>
-      </categories>
-      <tags>
-        <tag>Wallpaper Engine</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>利用Python编写星际争霸2的简单脚本</title>
     <url>/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
@@ -330,6 +318,18 @@
         <tag>游戏</tag>
         <tag>Unity</tag>
         <tag>Unity3D</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wallpaper Engine中图片文件的提取</title>
+    <url>/2020/05/15/Wallpaper%20Engine%E4%B8%AD%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84%E6%8F%90%E5%8F%96/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>推荐访问如下网站（侵删）：<br><a href="http://blog.repeater.vip/?p=196" target="_blank" rel="noopener">http://blog.repeater.vip/?p=196</a><br>Wallpaper Engine对于场景类（Scene）壁纸是使用以pkg为后缀的加密包存储的（此处的pkg与塞班系统的pkg无关），链接中的pkg解包程序可以直接提取所有源文件。</p>
+]]></content>
+      <categories>
+        <category>软件使用</category>
+      </categories>
+      <tags>
+        <tag>Wallpaper Engine</tag>
       </tags>
   </entry>
 </search>
