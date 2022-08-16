@@ -1,111 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>c0mm1e的个人Blog</title>
+  <title>Chung的個人網誌</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://c0mm1e.github.io/"/>
-  <updated>2020-09-30T18:20:03.000Z</updated>
+  <updated>2020-05-27T07:23:59.000Z</updated>
   <id>https://c0mm1e.github.io/</id>
   
   <author>
-    <name>c0mm1e</name>
+    <name>Chung</name>
     
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Unity3D游戏制作初学（一） Fake Touhou</title>
-    <link href="https://c0mm1e.github.io/2020/10/01/Unity3D%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C%E5%88%9D%E5%AD%A6%EF%BC%88%E4%B8%80%EF%BC%89-Fake-Touhou/"/>
-    <id>https://c0mm1e.github.io/2020/10/01/Unity3D%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C%E5%88%9D%E5%AD%A6%EF%BC%88%E4%B8%80%EF%BC%89-Fake-Touhou/</id>
-    <published>2020-09-30T18:20:03.000Z</published>
-    <updated>2020-09-30T18:20:03.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="游戏" scheme="https://c0mm1e.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    
-      <category term="Unity" scheme="https://c0mm1e.github.io/tags/Unity/"/>
-    
-      <category term="Unity3D" scheme="https://c0mm1e.github.io/tags/Unity3D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pygame小游戏-Alien Invasion</title>
-    <link href="https://c0mm1e.github.io/2020/07/12/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion/"/>
-    <id>https://c0mm1e.github.io/2020/07/12/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion/</id>
-    <published>2020-07-11T17:20:58.000Z</published>
-    <updated>2020-07-11T17:20:58.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Python" scheme="https://c0mm1e.github.io/tags/Python/"/>
-    
-      <category term="Pygame" scheme="https://c0mm1e.github.io/tags/Pygame/"/>
-    
-      <category term="游戏" scheme="https://c0mm1e.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简单代码刷EF作业（上科大）</title>
-    <link href="https://c0mm1e.github.io/2020/07/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/"/>
-    <id>https://c0mm1e.github.io/2020/07/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/</id>
-    <published>2020-07-08T01:38:43.000Z</published>
-    <updated>2020-07-08T01:38:43.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="上科大" scheme="https://c0mm1e.github.io/tags/%E4%B8%8A%E7%A7%91%E5%A4%A7/"/>
-    
-      <category term="console对象" scheme="https://c0mm1e.github.io/tags/console%E5%AF%B9%E8%B1%A1/"/>
-    
-  </entry>
   
   <entry>
     <title>Python实现DH密钥协商算法的解密</title>
@@ -166,39 +75,6 @@
       <category term="密码学" scheme="https://c0mm1e.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
     
       <category term="算法" scheme="https://c0mm1e.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用Python编写星际争霸2的简单脚本</title>
-    <link href="https://c0mm1e.github.io/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/"/>
-    <id>https://c0mm1e.github.io/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/</id>
-    <published>2020-05-25T19:41:29.000Z</published>
-    <updated>2020-05-25T19:41:29.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Python" scheme="https://c0mm1e.github.io/tags/Python/"/>
-    
-      <category term="游戏" scheme="https://c0mm1e.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    
-      <category term="星际争霸2" scheme="https://c0mm1e.github.io/tags/%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82/"/>
-    
-      <category term="pysc" scheme="https://c0mm1e.github.io/tags/pysc/"/>
     
   </entry>
   
@@ -284,6 +160,35 @@
       <category term="密码学" scheme="https://c0mm1e.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
     
       <category term="算法" scheme="https://c0mm1e.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>简单代码刷EF作业（上科大）</title>
+    <link href="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/"/>
+    <id>https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/</id>
+    <published>2020-04-08T01:38:43.000Z</published>
+    <updated>2020-04-08T01:38:43.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="https://c0mm1e.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="上科大" scheme="https://c0mm1e.github.io/tags/%E4%B8%8A%E7%A7%91%E5%A4%A7/"/>
+    
+      <category term="console对象" scheme="https://c0mm1e.github.io/tags/console%E5%AF%B9%E8%B1%A1/"/>
     
   </entry>
   

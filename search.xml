@@ -1,39 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Pygame小游戏-Alien Invasion</title>
-    <url>/2020/07/12/Pygame%E5%B0%8F%E6%B8%B8%E6%88%8F-Alien%20Invasion/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>游戏项目来源于《Python编程：从入门到实践》，已上传至Github仓库。</p>
-<p>链接：<a href="https://github.com/c0mm1e/alien_invasion" target="_blank" rel="noopener">https://github.com/c0mm1e/alien_invasion</a></p>
-<p>具体信息详见游戏项目根目录中的README.md和CHANGELOG.md文件。</p>
-<p>游戏截图：</p>
-<p><img src="1.png" alt=""></p>
-<p><img src="2.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Pygame</tag>
-        <tag>游戏</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>利用Python编写星际争霸2的简单脚本</title>
-    <url>/2020/05/26/%E5%88%A9%E7%94%A8Python%E7%BC%96%E5%86%99%E6%98%9F%E9%99%85%E4%BA%89%E9%9C%B82%E7%9A%84%E7%AE%80%E5%8D%95%E8%84%9A%E6%9C%AC!!/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>游戏</tag>
-        <tag>星际争霸2</tag>
-        <tag>pysc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python实现DH密钥协商算法的解密</title>
     <url>/2020/05/27/Python%E5%AE%9E%E7%8E%B0DH%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>DH密钥协商是一种建立密钥的方法，而不是加密方法，由White field与Martin Hellman在1976年共同提出。下文先简要介绍DH密钥协商的原理，再介绍如何使用Python进行解密。</p>
@@ -152,7 +119,7 @@
   </entry>
   <entry>
     <title>简单代码刷EF作业（上科大）</title>
-    <url>/2020/07/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/</url>
+    <url>/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本文提供刷上科大综合英语课程的网上作业的方法，以下是注意事项：</p>
 <ol>
 <li>代码来源未知，本文仅为转载，若有侵权请联系作者。</li>
@@ -277,47 +244,6 @@
         <tag>Python</tag>
         <tag>密码学</tag>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Unity3D游戏制作初学（一） Fake Touhou</title>
-    <url>/2020/10/01/Unity3D%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C%E5%88%9D%E5%AD%A6%EF%BC%88%E4%B8%80%EF%BC%89-Fake-Touhou/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近正在学习Unity3D，先试着做了一个仿Touhou的STG，主要实现了以下内容：</p>
-<ul>
-<li>基于Canvas制作的简易UI（使用Slader充当血条是很巧妙的方法）</li>
-<li>基于IEnumerator的延迟事件</li>
-<li>脚本通过SerializeField获取GameObject等</li>
-<li>BGM和音效的加入</li>
-<li>弹幕射击和角色移动</li>
-<li>胜负判定和游戏状态的改变</li>
-</ul>
-<p>GitHub项目如下：</p>
-<p><a href="https://github.com/c0mm1e/UnityGame_FakeTouhou" target="_blank" rel="noopener">https://github.com/c0mm1e/UnityGame_FakeTouhou</a></p>
-<p>由于刚学C#，所以脚本的格式很是凌乱，望dalao轻喷。</p>
-<p>今后更新主要方向：</p>
-<ul>
-<li><p>UI美化</p>
-</li>
-<li><p>更多Boss和弹幕种类</p>
-</li>
-<li><p>开始界面UI</p>
-</li>
-<li><p>引入随机数实现随机性</p>
-</li>
-</ul>
-<p>虽然这只是一个花了三天左右糊出来的屑作，不过我自己确实通过创作学到很多，Unity确实是一个很实用的游戏引擎，希望下一次能做出更好的游戏。</p>
-<p>最后附上几张游戏截图：</p>
-<p><img src="play.png" alt=""></p>
-<p><img src="win.png" alt=""></p>
-<p><img src="lose.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>游戏</tag>
-        <tag>Unity</tag>
-        <tag>Unity3D</tag>
       </tags>
   </entry>
   <entry>
