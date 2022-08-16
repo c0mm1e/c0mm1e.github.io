@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="上科大,console对象," />
+  <meta name="keywords" content="Python,算法,密碼學," />
 
 
 
@@ -77,25 +77,20 @@
 
 
 
-<meta name="description" content="本文提供刷上科大综合英语课程的网上作业的方法，以下是注意事项：  代码来源未知，本文仅为转载，若有侵权请联系作者。 该方法仅适用于Windows系统。 请不要随意改变代码中的参数以防出现异常数据。  下面是具体操作步骤（以Microsoft Edge为例）：  打开英孚（EF）网站，并检查二级域名是否为 https:&#x2F;&#x2F;corporate.ef.com.cn&#x2F; 。  按F12打开审查元素，并点击C">
+<meta name="description" content="DH金鑰協商是一種建立金鑰的方法，而不是加密方法，由White field與Martin Hellman在1976年共同提出。下文先簡要介紹DH金鑰協商的原理，再介紹如何使用Python進行解密。 建立金鑰任取大質數$q$，所有的運算都在$\mathbb Z_q$中進行。 假設發送方為Alice，接收方為Bob，雙方約定公開的DH參數$(q,g)$。 Alice選擇私鑰$a$，並計算公鑰$A&#x3D;g^">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单代码刷EF作业（上科大）">
-<meta property="og:url" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/index.html">
+<meta property="og:title" content="Python實現DH金鑰協商算法中的解密過程">
+<meta property="og:url" content="https://c0mm1e.github.io/2020/05/27/Python%E5%AF%A6%E7%8F%BEDH%E9%87%91%E9%91%B0%E5%8D%94%E5%95%86%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Chung的個人網誌">
-<meta property="og:description" content="本文提供刷上科大综合英语课程的网上作业的方法，以下是注意事项：  代码来源未知，本文仅为转载，若有侵权请联系作者。 该方法仅适用于Windows系统。 请不要随意改变代码中的参数以防出现异常数据。  下面是具体操作步骤（以Microsoft Edge为例）：  打开英孚（EF）网站，并检查二级域名是否为 https:&#x2F;&#x2F;corporate.ef.com.cn&#x2F; 。  按F12打开审查元素，并点击C">
+<meta property="og:description" content="DH金鑰協商是一種建立金鑰的方法，而不是加密方法，由White field與Martin Hellman在1976年共同提出。下文先簡要介紹DH金鑰協商的原理，再介紹如何使用Python進行解密。 建立金鑰任取大質數$q$，所有的運算都在$\mathbb Z_q$中進行。 假設發送方為Alice，接收方為Bob，雙方約定公開的DH參數$(q,g)$。 Alice選擇私鑰$a$，並計算公鑰$A&#x3D;g^">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE1.png">
-<meta property="og:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE2.png">
-<meta property="og:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE3.png">
-<meta property="og:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE4.png">
-<meta property="og:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE5.png">
-<meta property="article:published_time" content="2020-04-08T01:38:43.000Z">
-<meta property="article:modified_time" content="2020-04-08T01:38:43.000Z">
+<meta property="article:published_time" content="2020-05-27T07:23:59.000Z">
+<meta property="article:modified_time" content="2020-05-27T07:23:59.000Z">
 <meta property="article:author" content="Chung">
-<meta property="article:tag" content="上科大">
-<meta property="article:tag" content="console对象">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="密碼學">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/%E5%9B%BE1.png">
 
 
 
@@ -125,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://c0mm1e.github.io/2020/04/08/简单代码刷EF作业（上科大）/"/>
+  <link rel="canonical" href="https://c0mm1e.github.io/2020/05/27/Python實現DH金鑰協商算法中的解密過程/"/>
 
 
 
 
 
-  <title>简单代码刷EF作业（上科大） | Chung的個人網誌</title>
+  <title>Python實現DH金鑰協商算法中的解密過程 | Chung的個人網誌</title>
   
 
 
@@ -302,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2020/05/27/Python%E5%AF%A6%E7%8F%BEDH%E9%87%91%E9%91%B0%E5%8D%94%E5%95%86%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chung">
@@ -319,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">简单代码刷EF作业（上科大）</h1>
+          <h1 class="post-title" itemprop="name headline">Python實現DH金鑰協商算法中的解密過程</h1>
         
 
         <div class="post-meta">
@@ -331,8 +326,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-04-08T09:38:43+08:00">
-                2020-04-08
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-05-27T15:23:59+08:00">
+                2020-05-27
               </time>
             
 
@@ -354,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
+                  <a href="/categories/%E6%8A%80%E8%A1%93/" itemprop="url" rel="index">
+                    <span itemprop="name">技術</span>
                   </a>
                 </span>
 
@@ -391,37 +386,24 @@
       
 
       
-        <p>本文提供刷上科大综合英语课程的网上作业的方法，以下是注意事项：</p>
-<ol>
-<li>代码来源未知，本文仅为转载，若有侵权请联系作者。</li>
-<li>该方法仅适用于Windows系统。</li>
-<li>请不要随意改变代码中的参数以防出现异常数据。</li>
-</ol>
-<p>下面是具体操作步骤（以Microsoft Edge为例）：</p>
-<ol>
-<li><p>打开英孚（EF）网站，并检查二级域名是否为 <a href="https://corporate.ef.com.cn/" target="_blank" rel="noopener">https://corporate.ef.com.cn/</a> 。</p>
-</li>
-<li><p>按F12打开审查元素，并点击Console一栏。</p>
-</li>
-<li><p>进入要求学习的课程。</p>
-<p><img src="图1.png" alt="图1"> </p>
-</li>
-<li><p>对于课程中的某一小节，点击“开始”进入后在Console中复制以下代码并回车。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function polling() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        if ($("div[class='ets-ui-acc-bd-main']")[0].childElementCount &gt; 0) &#123;</span><br><span class="line">            console.log("submit")</span><br><span class="line">            submit()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">        console.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        console.log("waiting")</span><br><span class="line">        polling();</span><br><span class="line">    &#125;, 2000)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function submit() &#123;</span><br><span class="line">    $("li[data-at-id][class^='ets-ui-acc-act-nav-act']").each(function () &#123;</span><br><span class="line">        aid = this.attributes["data-at-id"].value.match(/\w&#123;8&#125;-\w&#123;4&#125;-\w&#123;4&#125;-\w&#123;4&#125;-\w&#123;12&#125;/)[0]</span><br><span class="line">        console.log(aid)</span><br><span class="line">        r = $.ajax(&#123;</span><br><span class="line">            type: "POST",</span><br><span class="line">            url: "https://corporate.ef.com.cn/services/api/school/command/scoring/submitactivityscore?c=countrycode%3dcn%7cculturecode%3dzh-CN%7cpartnercode%3dCncp%7csiteversion%3d20-1%7cstudentcountrycode%3dcn%7cdevicetypeid%3d1%7cproductid%3d100",</span><br><span class="line">            data: JSON.stringify(&#123; "studentActivityId": aid, "score": 100, "minutesSpent": parseInt(Math.random() * 1 + 1), "studyMode": 0 &#125;),</span><br><span class="line">            contentType: "application/json"</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(r)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">polling()</span><br></pre></td></tr></table></figure>
-<p><img src="图2.png" alt="图2"> </p>
-</li>
-<li><p>此时Console中会出现一行“Undefined”，待之消失时立即退出该小节。</p>
-<p><img src="图3.png" alt="图3"> </p>
-</li>
-<li><p>按F5刷新界面，此时该小节即会显示为已完成。</p>
-<p><img src="图4.png" alt="图4"> </p>
-</li>
-<li><p>对于该课程中每一小节，重复步骤4-7。</p>
-</li>
-<li><p>你可以随时在课程-进度和测试中检查每一课的耗时，一般以每课20-30分钟为宜。</p>
-<p><img src="图5.png" alt="图5"> </p>
-</li>
-</ol>
+        <p>DH金鑰協商是一種建立金鑰的方法，而不是加密方法，由White field與Martin Hellman在1976年共同提出。下文先簡要介紹DH金鑰協商的原理，再介紹如何使用Python進行解密。</p>
+<h1 id="建立金鑰"><a href="#建立金鑰" class="headerlink" title="建立金鑰"></a>建立金鑰</h1><p>任取大質數$q$，所有的運算都在$\mathbb Z_q$中進行。</p>
+<p>假設發送方為Alice，接收方為Bob，雙方約定公開的DH參數$(q,g)$。</p>
+<p>Alice選擇私鑰$a$，並計算公鑰$A=g^a\ ({\rm mod}\ q)$。</p>
+<p>Bob選擇私鑰$b$，並計算公鑰$B=g^b\ ({\rm mod}\ q)$。</p>
+<p>Alice和Bob分別通過$s=B^a\ ({\rm mod}\ q)$和$s=A^b\ ({\rm mod}\ q)$計算金鑰$s$。（由$B^a=g^{ab}=A^b\ ({\rm mod}\ q)$可確保Alice和Bob計算出的$s$是相同的）</p>
+<ul>
+<li>$q,g,A,B$是公開的，$a$只有Alice知道，$b$只有Bob知道。</li>
+</ul>
+<h1 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h1><p>DH金鑰協商只能通過遍歷解密，即對$a$（或$b$）進行從$1$至$q$的遍歷並逐一驗算是否滿足$A=g^a\ ({\rm mod}\ q)$。</p>
+<p>代碼如下（其中的EEA和SAM已在《Python實現RSA算法的解密》中提及，不再贅述）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dhke</span><span class="params">(q,g,A,B,limit)</span>:</span> </span><br><span class="line">    a=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> sam(g,a,q)!=A <span class="keyword">and</span> a&lt;=limit: </span><br><span class="line">        a+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> a&gt;limit:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span> </span><br><span class="line">    <span class="keyword">return</span> sam(B,a,q)</span><br></pre></td></tr></table></figure>
+<h2 id="例題"><a href="#例題" class="headerlink" title="例題"></a>例題</h2><p>假設Alice和Bob通過DH金鑰協商交換了$(q,g,A,B)$，求生成的金鑰$s$。特別地，${\rm log}_gA,{\rm log}_gB\leqslant 10^4$。$(q,g,A,B)$如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">q=<span class="number">179769313486231590772930519078902473361797697894230657273430081157732675805500963132708477322407536021120113879871393357658789768814416622492847430639474124377767893424865485276302219601246094119453082952085005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624227998859</span></span><br><span class="line">g=<span class="number">3</span></span><br><span class="line">A=<span class="number">112983575163002618947589666666735428181684517845144875096902910066434723952623016603393212501214127399908823223492478725971266042754892798177781267512821607470545283059472689034731313027619864228688466438258327552045437590203790635506728603774799021127049872571983254506993921153718739796769296097404717448108</span></span><br><span class="line">B=<span class="number">111772767805210239496365191691516881043394988196297062013853646674574743401042736447328886156429629192691601526398366088012736749454626686281467579205675084461989494513294624066074137247913037330040487275346913253345733429767781900977102687185378411660147190296412313303321533586102552123457499563789255321369</span></span><br></pre></td></tr></table></figure>
+<p>使用代碼</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(dhke(q,g,A,B,<span class="number">10000</span>))</span><br></pre></td></tr></table></figure>
+<p>可得</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="number">10828112783453462381041707802056149866596392072243903940987459672779260675319522663099080388770903982546250524992420350200207624327420612300170620802665302905750045777684348125827484365007590718638373187936889967309324722655294992225815410914105072210725045953105019352457540772995508978315699107247398350128</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -442,7 +424,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link：</strong>
-    <a href="https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/" title="简单代码刷EF作业（上科大）">https://c0mm1e.github.io/2020/04/08/%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E5%88%B7EF%E4%BD%9C%E4%B8%9A%EF%BC%88%E4%B8%8A%E7%A7%91%E5%A4%A7%EF%BC%89/</a>
+    <a href="https://c0mm1e.github.io/2020/05/27/Python%E5%AF%A6%E7%8F%BEDH%E9%87%91%E9%91%B0%E5%8D%94%E5%95%86%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/" title="Python實現DH金鑰協商算法中的解密過程">https://c0mm1e.github.io/2020/05/27/Python%E5%AF%A6%E7%8F%BEDH%E9%87%91%E9%91%B0%E5%8D%94%E5%95%86%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice： </strong>
@@ -457,9 +439,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E4%B8%8A%E7%A7%91%E5%A4%A7/" rel="tag"># 上科大</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
-            <a href="/tags/console%E5%AF%B9%E8%B1%A1/" rel="tag"># console对象</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E5%AF%86%E7%A2%BC%E5%AD%B8/" rel="tag"># 密碼學</a>
           
         </div>
       
@@ -472,15 +456,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/05/26/Python%E5%AF%A6%E7%8F%BEShamir%E9%87%91%E9%91%B0%E5%88%86%E4%BA%AB%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/" rel="next" title="Python實現Shamir金鑰分享算法中的解密過程">
+                <i class="fa fa-chevron-left"></i> Python實現Shamir金鑰分享算法中的解密過程
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/07/Python%E5%AE%9E%E7%8E%B0RSA%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%A3%E5%AF%86/" rel="prev" title="Python实现RSA算法的解密">
-                Python实现RSA算法的解密 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,8 +516,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -552,7 +545,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -574,7 +567,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>
@@ -640,6 +633,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#建立金鑰"><span class="nav-number">1.</span> <span class="nav-text">建立金鑰</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解密"><span class="nav-number">2.</span> <span class="nav-text">解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例題"><span class="nav-number">2.1.</span> <span class="nav-text">例題</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1160,6 +1169,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
