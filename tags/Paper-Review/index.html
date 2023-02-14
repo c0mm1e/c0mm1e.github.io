@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content=",," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -103,16 +103,14 @@
 
 
 
+<meta name="description" content="ご訪問を歓迎する">
 <meta property="og:type" content="website">
-<meta property="og:title" content="社會實踐在攀枝花（２０２１）">
-<meta property="og:url" content="https://c0mm1e.github.io/NOT_FINISHED/%E7%A4%BE%E6%9C%83%E5%AF%A6%E8%B8%90%E5%9C%A8%E6%94%80%E6%9E%9D%E8%8A%B1.html">
+<meta property="og:title" content="Chung的個人網誌">
+<meta property="og:url" content="https://c0mm1e.github.io/tags/Paper-Review/index.html">
 <meta property="og:site_name" content="Chung的個人網誌">
+<meta property="og:description" content="ご訪問を歓迎する">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2022-08-20T17:51:15.000Z">
-<meta property="article:modified_time" content="2022-08-20T17:51:15.000Z">
 <meta property="article:author" content="Chung">
-<meta property="article:tag" content="大學生活">
-<meta property="article:tag" content="中國">
 <meta name="twitter:card" content="summary">
 
 
@@ -143,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://c0mm1e.github.io/NOT_FINISHED/社會實踐在攀枝花.html"/>
+  <link rel="canonical" href="https://c0mm1e.github.io/tags/Paper-Review/"/>
 
 
 
 
 
-  <title>社會實踐在攀枝花（２０２１） | Chung的個人網誌</title>
+  <title>標籤: Paper Review | Chung的個人網誌</title>
   
 
 
@@ -168,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -306,36 +304,78 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-    
-    
-    <div class="post-block page">
-      <header class="post-header">
+  
+  
+  
+  <div class="post-block tag">
 
-	<h1 class="post-title" itemprop="name headline">社會實踐在攀枝花（２０２１）</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-        
-        
-          
-        
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>Paper Review<small>標籤</small>
+        </h1>
       </div>
+
       
-      
+        
+
+  <article class="post post-type-picture" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2023/02/14/%E8%AB%96%E6%96%87%E3%80%8CCombining%20satellite%20imagery%20and%20machine%20learning%20to%20predict%20poverty%E3%80%8D%E7%9A%84Paper%20Review/" itemprop="url">
+              
+                <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="論文摘要"><a href="#論文摘要" class="headerlink" title="論文摘要"></a>論文摘要</h2><p>這篇論文主要討論了一個資料分析在社科領域的應用方法，即根據高解析度衛星圖像估算消費支出和資產財富，並以此預測某一地區的貧窮程度。</p>
+<p>首先，作者提到了現實的需求：稀缺的資源和外部的援助需要得到精準地分配，即向最貧困地區的發展傾斜，特別地，這種精準分配對於擁有眾多生活在國際貧困線附近及以下的人口的極度貧困國家更為重要。然而，許多發展中國家由於自身政府羸弱的財政統計系統，而缺乏有關經濟發展關鍵指標的可靠的資料。以最為貧窮的非洲大陸為例，在2000年至2010年期間，59個非洲國家中有39個國家進行的全國性的經濟調查少於兩次，另有阿爾及利亞，索馬利亞，利比亞，波札那等19國甚至从未進行此類調查。</p>
+<p>鑒於擴大傳統資料收集工作的困難，科學家開始考慮使用一些其他的易於收集的資料對地區的經濟資料進行預測。作者首先提及了兩類資料，但隨即列出了兩者的缺點以進行反駁：</p>
+<ol>
+<li><p>來自手機的資料（例如社交媒體或手機網路的資料）：由於依賴不同的專有資料集，可能難以在各國之間推廣。</p>
+</li>
+<li><p>衛星圖像的夜晚光照強度資料：無法區分生活著國際貧困線附近及以下人口的地區的經濟活動差異，也難以區分人口稠密的貧困地區和人口稀少的富裕地區。</p>
+</li>
+</ol>
+<p>然後，作者展示了他們實現的一種新穎的機械學習方法，用於從高解析度白天衛星圖像中提取社會經濟資料。這種方法的簡要過程如下：</p>
+<ol>
+<li>需要注意的是，整個方法基於一個前提，即高解析度衛星圖像可能包含了大量可能與經濟相關的景觀特徵的訊息。</li>
+<li>首先，在龐大的ImageNet資料集上預訓練一個CNN模型，這個模型高度非線性，能夠從圖像中提取複雜的特徵。</li>
+<li>對於最初提到的全國性的經濟調查，即使是那些進行過調查的國家，每個國家的資料集中也只含有數百個可用於訓練的資料點。考慮到資料的缺乏，顯然不能直接使用全國性的經濟調查資料訓練大型CNN模型。</li>
+<li>為了解決資料稀缺問題，作者選擇使用遷移學習的方法。他們利用之前提到的豐富的衛星圖像的夜晚光照強度資料集，先微調CNN模型，使其被訓練為能夠預測與輸入的白天衛星圖像相對應的夜間光照強度。</li>
+<li>作者認為某些解釋夜晚光照強度變化的特徵也可以預測經濟結果。儘管夜晚光照強度在較低支出水平下變化不大，但調查資料表明，白天衛星圖像中可見的其他特徵，例如屋頂材料和到市區的距離，與支出大致呈線性變化。由於夜晚光照強度和這些特徵都顯示出較高收入水平的變化，因此對夜晚光照強度進行訓練可以幫助CNN學習提取此類特徵，從而更有效地捕捉整個收入水平分佈中的變化。</li>
+<li>最後，作者使用調查資料中的平均值以及CNN從白天圖像中提取的相應圖像特徵，訓練出了可以估計集群級別（範圍大致相當於農村地區的村莊或城市地區的選區）的消費支出和資產財富的嶺回歸模型。</li>
+</ol>
+<p>經過評估，作者發現該遷移學習模型可以很好地預測多個非洲國家在集群級別上的平均家庭消費支出和資產財富，且明顯優於僅使用夜晚光照強度資料的方法。</p>
+<h2 id="評論"><a href="#評論" class="headerlink" title="評論"></a>評論</h2><p>這篇論文雖然沒有很多機械學習方法上的創新，但它成功提供了一個相對精準的低成本的預測較小區域經濟狀況的方法，且尤其適用於缺乏全國性經濟調查的貧困的發展中國家。由於高解析度衛星圖像易於獲取且足夠精細，我們或許可以更加精準合理地分配對貧困地區（尤其是非洲大陸）國際性經濟援助。從這點來看，這篇論文確有較強的現實意義。</p>
+<p>但同時也應意識到，這篇論文中的方法仍有缺陷。對於一個國家的資料訓練得到的模型並不能很好地用於其他國家經濟狀況的預測，一個可能的原因是衛星圖像資料並不包含能夠反映國家經濟政策和政治、宗教等制度的特徵，而這些因素與國家經濟有緊密的聯繫。</p>
+<p>最後，在結合此方法進行實際的經濟援助前，我們仍需要結合更多其他領域的資料作出更準確的分析，例如國家或地區的政府腐敗程度或國民受教育程度，這些指標也會對地區受經濟援助後的預期成效有很大的影響。</p>
+<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>論文連結：<a href="https://www.science.org/doi/10.1126/science.aaf7894" target="_blank" rel="noopener">Combining satellite imagery and machine learning to predict poverty | Science</a></p>
+<p>這篇Paper Review只是我在大學《資料探勘》課程的作業，水準不足請多見諒。另外，本文發表時間為2016年，考慮到機械學習領域的快速發展，這篇論文很可能已經過時。</p>
+
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2023-02-14T21:18:34+08:00"
+              content="2023-02-14" >
+          02-14
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
       
     </div>
-    
-    
-    
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -343,10 +383,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -387,7 +423,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -398,7 +434,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分類</span>
                 </a>
               </div>
@@ -409,7 +445,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>
@@ -483,7 +519,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -611,10 +647,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
@@ -989,6 +1021,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

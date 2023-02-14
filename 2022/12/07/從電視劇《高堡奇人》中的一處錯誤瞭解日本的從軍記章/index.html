@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="Python,算法,密碼學," />
+  <meta name="keywords" content="日本,軍事史," />
 
 
 
@@ -103,20 +103,26 @@
 
 
 
-<meta name="description" content="RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。 RSA算法的加密生成公鑰和私鑰第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度） 第二步：$n&#x3D;pq$。（$n$的二進位制的長度即為金鑰長度) 第三步：計算$n$的Eul">
+<meta name="description" content="引言《高堡奇人》是一部架空歷史間諜題材的美國電視連續劇，講述了一段軸心國在二戰中勝利的架空歷史，改編自美國科幻小說作家菲利普·K·迪克於1962年出版的同名小說，此小說曾於1963年獲得雨果獎最佳長篇小說獎並因此聞名於世。                       小說第一版封面                  由於整個劇集只有前面一小部分的劇情來自於原作，因此靠後的內容均由編劇自由發揮，其中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python實現RSA算法中的解密過程">
-<meta property="og:url" content="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/index.html">
+<meta property="og:title" content="從電視劇《高堡奇人》中的一處錯誤瞭解日本的從軍記章">
+<meta property="og:url" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/index.html">
 <meta property="og:site_name" content="Chung的個人網誌">
-<meta property="og:description" content="RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。 RSA算法的加密生成公鑰和私鑰第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度） 第二步：$n&#x3D;pq$。（$n$的二進位制的長度即為金鑰長度) 第三步：計算$n$的Eul">
+<meta property="og:description" content="引言《高堡奇人》是一部架空歷史間諜題材的美國電視連續劇，講述了一段軸心國在二戰中勝利的架空歷史，改編自美國科幻小說作家菲利普·K·迪克於1962年出版的同名小說，此小說曾於1963年獲得雨果獎最佳長篇小說獎並因此聞名於世。                       小說第一版封面                  由於整個劇集只有前面一小部分的劇情來自於原作，因此靠後的內容均由編劇自由發揮，其中">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-05-07T02:31:08.000Z">
-<meta property="article:modified_time" content="2020-05-07T02:31:08.000Z">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/0.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/1.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/2.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/3.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/%E5%BE%93%E8%BB%8D%E7%89%8C.jfif">
+<meta property="og:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/4.jpg">
+<meta property="article:published_time" content="2022-12-06T18:57:58.000Z">
+<meta property="article:modified_time" content="2022-12-06T18:57:58.000Z">
 <meta property="article:author" content="Chung">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="密碼學">
+<meta property="article:tag" content="日本">
+<meta property="article:tag" content="軍事史">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/0.jpg">
 
 
 
@@ -146,13 +152,13 @@
 
 
 
-  <link rel="canonical" href="https://c0mm1e.github.io/2020/05/07/Python實現RSA算法中的解密過程/"/>
+  <link rel="canonical" href="https://c0mm1e.github.io/2022/12/07/從電視劇《高堡奇人》中的一處錯誤瞭解日本的從軍記章/"/>
 
 
 
 
 
-  <title>Python實現RSA算法中的解密過程 | Chung的個人網誌</title>
+  <title>從電視劇《高堡奇人》中的一處錯誤瞭解日本的從軍記章 | Chung的個人網誌</title>
   
 
 
@@ -318,12 +324,12 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-picture" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chung">
@@ -336,72 +342,6 @@
     </span>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Python實現RSA算法中的解密過程</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-05-07T10:31:08+08:00">
-                2020-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E8%A1%93/" itemprop="url" rel="index">
-                    <span itemprop="name">技術</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
 
     
     
@@ -412,54 +352,487 @@
       
 
       
-        <p>RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。</p>
-<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公鑰和私鑰"><a href="#生成公鑰和私鑰" class="headerlink" title="生成公鑰和私鑰"></a>生成公鑰和私鑰</h2><p>第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度）</p>
-<p>第二步：$n=pq$。（$n$的二進位制的長度即為金鑰長度)</p>
-<p>第三步：計算$n$的Euler函數$φ(n) = (p-1)(q-1)$。</p>
-<p>第四步：任取整數$e$滿足$1&lt;e&lt;φ(n)$，且$e$與$φ(n)$互質。</p>
-<p>第五步：計算出$e$對於$φ(n)$的模反元素$d$。</p>
-<p>第六步：公鑰為$(n,e)$，私鑰為$(n,d)$。</p>
-<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整數$m$。（此處$m&lt;n$）（若要加密字串等，可用ASCII編碼先轉化為整數）</p>
-<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
-<ul>
-<li>$n,e,c$是公開的，$p,q,φ(n),d,m$是私密的。</li>
-</ul>
-<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我們需要了解以下兩個算法：</p>
-<h2 id="擴展Euclidean算法-EEA"><a href="#擴展Euclidean算法-EEA" class="headerlink" title="擴展Euclidean算法 (EEA)"></a>擴展Euclidean算法 (EEA)</h2><p>對於兩正整數$a,b$，我們有Euclidean算法（即輾轉相除法）來計算$gcd(a,b)$：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
-<p>由Bézout定理可知，存在整數$x,y$使得$ax+by=gcd(a,b)$成立。</p>
-<p>相較於Euclidean算法，擴展Euclidean算法除了計算$gcd(a,b)$，還會得到$x,y$的值。</p>
-<p>代碼如下：</p>
-<p>（非遞迴）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
-<p>（遞迴）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
-<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>對於三正整數$a,e,n$，我們有Square-and-Multiply算法來計算$a^e({\rm mod}\ n)$，其原理是：</p>
-<p>取$e$的二進位制$e=(e_{k-1}…e_0)_2$（其中$k$為$e$的二進位制的長度），則有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
-<p>$x_0=a$</p>
-<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
-<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
-<p>代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可證$c^d\equiv m({\rm mod}\ n)$，下給出證明過程：</p>
-<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
-<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得證。</p>
-<p>因此，如果已知$(n,d,c)$，結合Square-and-Multiply算法即可得到原文$m$，代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>同理，如果已知$(p,q,e,c)$，結合擴展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>這是因為由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，對$(e,φ(n))$使用擴展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知對$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此處也說明$d$必須是正數）。</p>
-<h2 id="例題"><a href="#例題" class="headerlink" title="例題"></a>例題</h2><p>對密文$c$在RSA中進行解密，已知</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
-<p>使用代碼</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
-<p>可得</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>《高堡奇人》是一部架空歷史間諜題材的美國電視連續劇，講述了一段軸心國在二戰中勝利的架空歷史，改編自美國科幻小說作家菲利普·K·迪克於1962年出版的同名小說，此小說曾於1963年獲得雨果獎最佳長篇小說獎並因此聞名於世。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="0.jpg" width = "35%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+      小說第一版封面
+      </div>
+      <br>
+</center>
 
+
+<p>由於整個劇集只有前面一小部分的劇情來自於原作，因此靠後的內容均由編劇自由發揮，其中不乏歷史常識性的錯誤。可能是因為編劇對於日本歷史的不甚瞭解，這種情況在劇集中出現的日本元素上十分常見。例如劇中就有出現過IJA將IJN的艦隊總司令置於軍事法庭審判並試圖處決他的奇景。</p>
+<center class="half">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="1.jpg" width = "80%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 0px;">
+      出自S04E06
+      </div>
+      <br>
+</center>
+
+
+<p>不過本文所要提及的，是一個可能不太會被注意到的，關於記章的小錯誤。在劇中曾出現過一個名為「支那事変従軍記章」的記章箱，但裡面卻裝著「昭和六年乃至九年事変従軍記章」。下面將</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column"  style="width: 100%;"><img style="border-radius: 0.3125em; box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="2.jpg" width = "60%" alt="1"></div></div><div class="group-picture-row"><div class="group-picture-column"  style="width: 100%;"><img style="border-radius: 0.3125em; box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="3.jpg" width = "60%" alt="1"/></div></div></div></div>
+<center class="half">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9; display: inline-block; color: #999; padding: 0px;">出自S02E06
+    </div>
+      <br>
+</center>
+
+<h2 id="從軍記章的由來"><a href="#從軍記章的由來" class="headerlink" title="從軍記章的由來"></a>從軍記章的由來</h2><p>明治8年（1875），日本政府頒佈了名為《賞牌従軍牌制定ノ件》的法令<sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="準確來說，《賞牌従軍牌制定ノ件》是具有法令形式的太政官布告。太政官是明治初期的最高行政機關，於明治18年（1885）隨內閣制度的建立而廢止。
+">[1]</span></a></sup>，制定了「賞牌」和「従軍牌」兩種佩章。翌年，又將「賞牌」改稱為「勲章」、「従軍牌」改稱為「従軍記章」。與勳章和褒章等佩章不同的是，從軍記章的授與對象非常廣泛。一般而言，無論軍中地位和軍功有無，只要是參戰的士兵就能被授與相關戰爭（事變）的從軍記章。<sup id="fnref:2"><a href="#fn:2" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="「従軍牌ハ将卒ノ別ナク軍功ノ有無ヲ論セス凱旋ノ後従軍ノ徴ニ之ヲ賜フ」－《賞牌従軍牌制定ノ件》
+">[2]</span></a></sup>正因如此，從軍記章的發行數普遍很多，其中「支那事変従軍記章」作為發行數最多的從軍記章合計約授與了340萬人。</p>
+<p><center class="half">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="従軍牌.jfif" width = "30%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 0px;">
+      従軍牌－《賞牌従軍牌制定ノ件》，《法令全書．明治８年》
+      </div>
+      <br>
+</center></p>
+<h2 id="從軍記章一覽"><a href="#從軍記章一覽" class="headerlink" title="從軍記章一覽"></a>從軍記章一覽</h2><p>歷史上，一共出現過</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>制定時間</th>
+<th>相關事件</th>
+<th>材料</th>
+<th>飾版文字</th>
+<th>配色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>明治七年従軍記章</td>
+<td>明治8年（1875）</td>
+<td>牡丹社事件</td>
+<td>銀</td>
+<td>「台湾」</td>
+<td>白・綠</td>
+</tr>
+<tr>
+<td>明治二十七八年従軍記章</td>
+<td>明治28年（1895）</td>
+<td>第一次中日戰爭</td>
+<td>銅</td>
+<td>無</td>
+<td>白・綠</td>
+</tr>
+<tr>
+<td>明治三十三年従軍記章</td>
+<td>明治35年（1902）</td>
+<td>庚子事變</td>
+<td>銅</td>
+<td>「清国事変」</td>
+<td>白・綠・白・綠</td>
+</tr>
+<tr>
+<td>明治三十七八年従軍記章</td>
+<td>明治39年（1906）</td>
+<td>日俄戰爭</td>
+<td>銅</td>
+<td>「従軍記章」</td>
+<td>紺青・綠・白</td>
+</tr>
+<tr>
+<td>大正三四年従軍記章</td>
+<td>大正4年（1915）</td>
+<td>第一次世界大戰</td>
+<td>銅</td>
+<td>「従軍記章」</td>
+<td>白・紺青</td>
+</tr>
+<tr>
+<td>大正三年乃至九年戦役従軍記章</td>
+<td>大正9年（1920）</td>
+<td>第一次世界大戰及西伯利亞干涉戰爭</td>
+<td>銅</td>
+<td>「従軍記章」</td>
+<td>白・紺青</td>
+</tr>
+<tr>
+<td>昭和六年乃至九年事変従軍記章</td>
+<td>昭和9年（1934）</td>
+<td>九一八事變及一二八事變</td>
+<td>青銅</td>
+<td>「従軍記章」</td>
+<td>濃紅・黄・浅紅・緋褪・紅海老茶</td>
+</tr>
+<tr>
+<td>支那事変従軍記章</td>
+<td>昭和15年（1940）</td>
+<td>第二次中日戰爭</td>
+<td>青銅</td>
+<td>「従軍記章」</td>
+<td>紅・香・納戶・濃桔梗</td>
+</tr>
+<tr>
+<td>大東亜戦争従軍記章</td>
+<td>昭和19年（1944）</td>
+<td>第二次世界大戰</td>
+<td>錫</td>
+<td>「従軍記章」</td>
+<td>鶸・萌黄・納戶・濃桔梗</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「明治七年従軍記章」"><a href="#「明治七年従軍記章」" class="headerlink" title="「明治七年従軍記章」"></a>「明治七年従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>明治8年（1875）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>牡丹社事件（「台湾出兵」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td>文字「従軍記章」、桐樹枝</td>
+</tr>
+<tr>
+<td>背面</td>
+<td>文字「明治七年 歳次甲戌」</td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>銀</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑8分</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「台湾」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>白・綠</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「明治二十七八年従軍記章」"><a href="#「明治二十七八年従軍記章」" class="headerlink" title="「明治二十七八年従軍記章」"></a>「明治二十七八年従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>明治28年（1895）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>第一次中日戰爭（「日清戦争」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>宝珠形，縱1寸1分、橫1寸</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>無</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>白・綠</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「明治三十三年従軍記章」"><a href="#「明治三十三年従軍記章」" class="headerlink" title="「明治三十三年従軍記章」"></a>「明治三十三年従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>明治35年（1902）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>庚子事變（「北清事変」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑1寸</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「清国事変」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>白・綠・白・綠</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「明治三十七八年従軍記章」"><a href="#「明治三十七八年従軍記章」" class="headerlink" title="「明治三十七八年従軍記章」"></a>「明治三十七八年従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>明治39年（1906）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>日俄戰爭（「日露戦争」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑1寸</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「従軍記章」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>紺青・綠・白</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「大正三四年（大正三年乃至九年戦役）従軍記章」"><a href="#「大正三四年（大正三年乃至九年戦役）従軍記章」" class="headerlink" title="「大正三四年（大正三年乃至九年戦役）従軍記章」"></a>「大正三四年（大正三年乃至九年戦役）従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>大正4年（1915）／大正9年（1920）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>第一次世界大戰（「青島の戦い」）／西伯利亞干涉戰爭（「シベリア出兵」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑1寸</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「従軍記章」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>白・紺青</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「昭和六年乃至九年事変従軍記章」"><a href="#「昭和六年乃至九年事変従軍記章」" class="headerlink" title="「昭和六年乃至九年事変従軍記章」"></a>「昭和六年乃至九年事変従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>昭和9年（1934）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>九一八事變（「満州事変」）及一二八事變（「第一次上海事変」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>青銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑3cm</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「従軍記章」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>濃紅・黄・浅紅・緋褪・紅海老茶</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「支那事変従軍記章」"><a href="#「支那事変従軍記章」" class="headerlink" title="「支那事変従軍記章」"></a>「支那事変従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>昭和15年（1940）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>第二次中日戰爭（「支那事変」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>青銅</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑3cm</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「従軍記章」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>紅・香・納戶・濃桔梗</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="「大東亜戦争従軍記章」"><a href="#「大東亜戦争従軍記章」" class="headerlink" title="「大東亜戦争従軍記章」"></a>「大東亜戦争従軍記章」</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>制定日期</th>
+<th>昭和19年（1944）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相關事件</td>
+<td>第二次世界大戰（「大東亜戦争」）</td>
+</tr>
+<tr>
+<td>正面</td>
+<td></td>
+</tr>
+<tr>
+<td>背面</td>
+<td></td>
+</tr>
+<tr>
+<td>金屬材料</td>
+<td>錫</td>
+</tr>
+<tr>
+<td>形狀大小</td>
+<td>圓形，直徑3cm</td>
+</tr>
+<tr>
+<td>飾版文字</td>
+<td>「従軍記章」</td>
+</tr>
+<tr>
+<td>綬帶配色（中間至邊緣）</td>
+<td>鶸・萌黄・納戶・濃桔梗</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實，作為一部架空歷史劇，這些錯誤都可以被解釋為一個與現實不同的平行世界，但這些差錯對於劇情顯然是沒有必要的。不過對於歷史愛好者來說，這些小小的差誤與看到大和號從金門大橋下駛過時的震撼感相比，可能也都算不上什麼了。</p>
+<p><center class="half">
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="4.jpg" width = "80%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 0px;">
+      出自S03E02
+      </div>
+      <br>
+</center></p>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">準確來說，《賞牌従軍牌制定ノ件》是具有法令形式的太政官布告。太政官是明治初期的最高行政機關，於明治18年（1885）隨內閣制度的建立而廢止。<a href="#fnref:1" rev="footnote"> ↩</a></span></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">2.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">「従軍牌ハ将卒ノ別ナク軍功ノ有無ヲ論セス凱旋ノ後従軍ノ徴ニ之ヲ賜フ」－《賞牌従軍牌制定ノ件》<a href="#fnref:2" rev="footnote"> ↩</a></span></li></ol></div></div>
       
     </div>
     
@@ -479,7 +852,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link：</strong>
-    <a href="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/" title="Python實現RSA算法中的解密過程">https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/</a>
+    <a href="https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/" title="從電視劇《高堡奇人》中的一處錯誤瞭解日本的從軍記章">https://c0mm1e.github.io/2022/12/07/%E5%BE%9E%E9%9B%BB%E8%A6%96%E5%8A%87%E3%80%8A%E9%AB%98%E5%A0%A1%E5%A5%87%E4%BA%BA%E3%80%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%99%95%E9%8C%AF%E8%AA%A4%E7%9E%AD%E8%A7%A3%E6%97%A5%E6%9C%AC%E7%9A%84%E5%BE%9E%E8%BB%8D%E8%A8%98%E7%AB%A0/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice： </strong>
@@ -494,11 +867,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/%E6%97%A5%E6%9C%AC/" rel="tag"># 日本</a>
           
-            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-          
-            <a href="/tags/%E5%AF%86%E7%A2%BC%E5%AD%B8/" rel="tag"># 密碼學</a>
+            <a href="/tags/%E8%BB%8D%E4%BA%8B%E5%8F%B2/" rel="tag"># 軍事史</a>
           
         </div>
       
@@ -511,14 +882,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2022/10/19/%E6%BC%A2%E5%AD%97%E7%B0%A1%E5%8C%96%E7%9A%84%E5%88%A9%E5%BC%8A%E5%88%86%E6%9E%90/" rel="next" title="漢字簡化的利弊分析">
+                <i class="fa fa-chevron-left"></i> 漢字簡化的利弊分析
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/15/Python%E4%B8%AD%E7%8D%B2%E5%8F%96%E7%B5%95%E5%B0%8D%E8%B7%AF%E5%BE%91%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="Python中獲取絕對路徑的方法">
-                Python中獲取絕對路徑的方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2023/02/14/%E8%AB%96%E6%96%87%E3%80%8CCombining%20satellite%20imagery%20and%20machine%20learning%20to%20predict%20poverty%E3%80%8D%E7%9A%84Paper%20Review/" rel="prev" title="論文「Combining satellite imagery and machine learning to predict poverty」的Paper Review">
+                論文「Combining satellite imagery and machine learning to predict poverty」的Paper Review <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -692,7 +1067,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的加密"><span class="nav-number">1.</span> <span class="nav-text">RSA算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成公鑰和私鑰"><span class="nav-number">1.1.</span> <span class="nav-text">生成公鑰和私鑰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密"><span class="nav-number">1.2.</span> <span class="nav-text">加密</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的解密"><span class="nav-number">2.</span> <span class="nav-text">RSA算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#擴展Euclidean算法-EEA"><span class="nav-number">2.1.</span> <span class="nav-text">擴展Euclidean算法 (EEA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Square-and-Multiply算法-SAMA"><span class="nav-number">2.2.</span> <span class="nav-text">Square-and-Multiply算法 (SAMA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.3.</span> <span class="nav-text">解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例題"><span class="nav-number">2.4.</span> <span class="nav-text">例題</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#從軍記章的由來"><span class="nav-number">2.</span> <span class="nav-text">從軍記章的由來</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#從軍記章一覽"><span class="nav-number">3.</span> <span class="nav-text">從軍記章一覽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#「明治七年従軍記章」"><span class="nav-number">3.1.</span> <span class="nav-text">「明治七年従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「明治二十七八年従軍記章」"><span class="nav-number">3.2.</span> <span class="nav-text">「明治二十七八年従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「明治三十三年従軍記章」"><span class="nav-number">3.3.</span> <span class="nav-text">「明治三十三年従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「明治三十七八年従軍記章」"><span class="nav-number">3.4.</span> <span class="nav-text">「明治三十七八年従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「大正三四年（大正三年乃至九年戦役）従軍記章」"><span class="nav-number">3.5.</span> <span class="nav-text">「大正三四年（大正三年乃至九年戦役）従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「昭和六年乃至九年事変従軍記章」"><span class="nav-number">3.6.</span> <span class="nav-text">「昭和六年乃至九年事変従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「支那事変従軍記章」"><span class="nav-number">3.7.</span> <span class="nav-text">「支那事変従軍記章」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#「大東亜戦争従軍記章」"><span class="nav-number">3.8.</span> <span class="nav-text">「大東亜戦争従軍記章」</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li></ol></div>
             
 
           </div>
@@ -1218,26 +1593,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

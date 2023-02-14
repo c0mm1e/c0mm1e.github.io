@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="Python,算法,密碼學," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -103,19 +103,14 @@
 
 
 
-<meta name="description" content="RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。 RSA算法的加密生成公鑰和私鑰第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度） 第二步：$n&#x3D;pq$。（$n$的二進位制的長度即為金鑰長度) 第三步：計算$n$的Eul">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python實現RSA算法中的解密過程">
-<meta property="og:url" content="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/index.html">
+<meta name="description" content="ご訪問を歓迎する">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chung的個人網誌">
+<meta property="og:url" content="https://c0mm1e.github.io/tags/%E6%A9%9F%E6%A2%B0%E5%AD%B8%E7%BF%92/index.html">
 <meta property="og:site_name" content="Chung的個人網誌">
-<meta property="og:description" content="RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。 RSA算法的加密生成公鑰和私鑰第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度） 第二步：$n&#x3D;pq$。（$n$的二進位制的長度即為金鑰長度) 第三步：計算$n$的Eul">
+<meta property="og:description" content="ご訪問を歓迎する">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-05-07T02:31:08.000Z">
-<meta property="article:modified_time" content="2020-05-07T02:31:08.000Z">
 <meta property="article:author" content="Chung">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="密碼學">
 <meta name="twitter:card" content="summary">
 
 
@@ -146,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://c0mm1e.github.io/2020/05/07/Python實現RSA算法中的解密過程/"/>
+  <link rel="canonical" href="https://c0mm1e.github.io/tags/機械學習/"/>
 
 
 
 
 
-  <title>Python實現RSA算法中的解密過程 | Chung的個人網誌</title>
+  <title>標籤: 機械學習 | Chung的個人網誌</title>
   
 
 
@@ -171,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -309,237 +304,78 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
   
   
   
+  <div class="post-block tag">
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chung的個人網誌">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Python實現RSA算法中的解密過程</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-05-07T10:31:08+08:00">
-                2020-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E8%A1%93/" itemprop="url" rel="index">
-                    <span itemprop="name">技術</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>RSA加密算法是一種非對稱加密算法，由Ron Rivest、Adi Shamir和Leonard Adleman在1977年共同提出。下文先簡要介紹RSA加密的原理，再介紹如何使用Python進行解密。</p>
-<h1 id="RSA算法的加密"><a href="#RSA算法的加密" class="headerlink" title="RSA算法的加密"></a>RSA算法的加密</h1><h2 id="生成公鑰和私鑰"><a href="#生成公鑰和私鑰" class="headerlink" title="生成公鑰和私鑰"></a>生成公鑰和私鑰</h2><p>第一步：任取不相等的兩質數$p,q$。（此處$p,q$的大小決定了破譯難度）</p>
-<p>第二步：$n=pq$。（$n$的二進位制的長度即為金鑰長度)</p>
-<p>第三步：計算$n$的Euler函數$φ(n) = (p-1)(q-1)$。</p>
-<p>第四步：任取整數$e$滿足$1&lt;e&lt;φ(n)$，且$e$與$φ(n)$互質。</p>
-<p>第五步：計算出$e$對於$φ(n)$的模反元素$d$。</p>
-<p>第六步：公鑰為$(n,e)$，私鑰為$(n,d)$。</p>
-<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>第一步：取需要加密的整數$m$。（此處$m&lt;n$）（若要加密字串等，可用ASCII編碼先轉化為整數）</p>
-<p>第二步：密文$c\equiv m^e({\rm mod}\ n)$。</p>
-<ul>
-<li>$n,e,c$是公開的，$p,q,φ(n),d,m$是私密的。</li>
-</ul>
-<h1 id="RSA算法的解密"><a href="#RSA算法的解密" class="headerlink" title="RSA算法的解密"></a>RSA算法的解密</h1><p>首先，我們需要了解以下兩個算法：</p>
-<h2 id="擴展Euclidean算法-EEA"><a href="#擴展Euclidean算法-EEA" class="headerlink" title="擴展Euclidean算法 (EEA)"></a>擴展Euclidean算法 (EEA)</h2><p>對於兩正整數$a,b$，我們有Euclidean算法（即輾轉相除法）來計算$gcd(a,b)$：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(b,a%b)</span><br></pre></td></tr></table></figure>
-<p>由Bézout定理可知，存在整數$x,y$使得$ax+by=gcd(a,b)$成立。</p>
-<p>相較於Euclidean算法，擴展Euclidean算法除了計算$gcd(a,b)$，還會得到$x,y$的值。</p>
-<p>代碼如下：</p>
-<p>（非遞迴）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">    x,x1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    y,y1=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line">    r,r1=a,b </span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span>  </span><br><span class="line">    <span class="keyword">while</span> r1!=<span class="number">0</span>:</span><br><span class="line">        q=r//r1</span><br><span class="line">        r,r1=r1,r-q*r1</span><br><span class="line">        x,x1=x1,x-q*x1</span><br><span class="line">        y,y1=y1,y-q*y1</span><br><span class="line">    <span class="comment"># r is gcd(a,b)</span></span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="keyword">return</span> r,x,y</span><br></pre></td></tr></table></figure>
-<p>（遞迴）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eea</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    r,x,y=eea(b,a%b)</span><br><span class="line">    <span class="comment"># ax+by=r</span></span><br><span class="line">    <span class="comment"># return r,x,y successively</span></span><br><span class="line">    <span class="keyword">return</span> r,y,x-a//b*y</span><br></pre></td></tr></table></figure>
-<h2 id="Square-and-Multiply算法-SAMA"><a href="#Square-and-Multiply算法-SAMA" class="headerlink" title="Square-and-Multiply算法 (SAMA)"></a>Square-and-Multiply算法 (SAMA)</h2><p>對於三正整數$a,e,n$，我們有Square-and-Multiply算法來計算$a^e({\rm mod}\ n)$，其原理是：</p>
-<p>取$e$的二進位制$e=(e_{k-1}…e_0)_2$（其中$k$為$e$的二進位制的長度），則有$e=\sum^{k-1}_{i=0}{e_i\cdot 2^i}$。</p>
-<p>$x_0=a$</p>
-<p>$x_1=(x_0^2\ {\rm mod}\ n)=(a^2\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_i=(x_{i-1}^2\ {\rm mod}\ n)=(a^{2^i}\ {\rm mod}\ n)$</p>
-<p>$…$</p>
-<p>$x_{k-1}=(x_{k-2}^2\ {\rm mod}\ n)=(a^{2^{k-1} }\ {\rm mod}\ n)$</p>
-<p>由此可得$a^e\equiv \prod^{k-1}_{i=0}{x_i^{e_i}} ({\rm mod}\ n)$。</p>
-<p>代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sam</span><span class="params">(a,e,n)</span>:</span></span><br><span class="line">    k=len(bin(e))<span class="number">-2</span></span><br><span class="line">    remainder=<span class="number">1</span></span><br><span class="line">    x=a </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k): </span><br><span class="line">        <span class="keyword">if</span> bin(e)[-i<span class="number">-1</span>]==<span class="string">"1"</span>: </span><br><span class="line">            remainder*=x </span><br><span class="line">        x=x**<span class="number">2</span>%n </span><br><span class="line">    <span class="keyword">return</span> remainder%n</span><br></pre></td></tr></table></figure>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>由$c\equiv m^e({\rm mod}\ n)$可證$c^d\equiv m({\rm mod}\ n)$，下給出證明過程：</p>
-<p>知$ed\equiv1({\rm mod}\ φ(n))$，因此有$ed-1=lφ(n),(l\in\mathbb N_+)$；</p>
-<p>由Euler定理，有$c^d\equiv m^{ed}\equiv m^{lφ(n)+1}\equiv m\cdot (m^{φ(n)})^l\equiv m\cdot 1^l\equiv m({\rm mod}\ n)$，得證。</p>
-<p>因此，如果已知$(n,d,c)$，結合Square-and-Multiply算法即可得到原文$m$，代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_1</span><span class="params">(n,d,c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>同理，如果已知$(p,q,e,c)$，結合擴展Euclidean算法和Square-and-Multiply算法也可得到原文$m$，代碼如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsa_2</span><span class="params">(p,q,e,c)</span>:</span></span><br><span class="line">    φ=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=eea(e,φ)[<span class="number">1</span>]%φ <span class="comment">#Ensure d&gt;0</span></span><br><span class="line">    n=p*q</span><br><span class="line">    <span class="keyword">return</span> sam(c,d,n)</span><br></pre></td></tr></table></figure>
-<p>這是因為由$φ(n) = (p-1)(q-1)$和$ed\equiv1({\rm mod}\ φ(n))$可知$de+kφ(n) =1(k\in\mathbb Z) $，對$(e,φ(n))$使用擴展Euclidean算法即可得$d$，又由$c^d\equiv m({\rm mod}\ n)$可知對$(c,d,n)$使用Square-and-Multiply算法即可得$m$（此處也說明$d$必須是正數）。</p>
-<h2 id="例題"><a href="#例題" class="headerlink" title="例題"></a>例題</h2><p>對密文$c$在RSA中進行解密，已知</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="number">92848022024833655041372304737256052921065477715975001419347548380734496823522565044177931242947122534563813415992433917108481569319894167972639736788613656007853719476736625612543893748136536594494005487213485785676333621181690463942417781763743640447405597892807333854156631166426238815716390011586838580891</span></span><br><span class="line">q=<span class="number">149600854933825512159828331527177109689118555212385170831387365804008437367913613643959968668965614270559113472851544758183282789643129469226548555150464780229538086590498853718102052468519876788192865092229749643546710793464305243815836267024770081889047200172952438000587807986096107675012284269101785114471</span></span><br><span class="line">e=<span class="number">4099852173630681822722339660229701793484497077549023050739406744299194740794285841565894857183257305962091658478256403457898496259755474199072635097327398971990092224918103250375455707498928712201945370461644425637423044616348028546654820134532012544433519158531485300462390097592776352017667386632661678681500542766835469056490039928380877979712159080905348869475217939844173751698241442662611990406492300411900572847532884748092860563495914734527293634873292356463076178294881900968373918292064527855306925898818421646057616238873254251939953144948550922456255743607156013509822605943382352582252129366170771186337</span></span><br><span class="line">c=<span class="number">1965004133006974659995314560167723896560162823992014763466676295156568780181324759118466356116827422439409513865820570400810380977333397895810023254515182242123244875173658899005048988942666876614798046351776061310094809679938914368938218289806790724992660151078718864505196754907261135221257146114289875149015431301569207527108638684989789729747097766650481983822742788958528594215002940645806662061041825912562593269329369550470854629711422167160350497882132054038403027493105855840606846063029571758386220434189610971724518330438082401592895354255430599515214166039595157639322144199213475742435020500518884278854</span></span><br></pre></td></tr></table></figure>
-<p>使用代碼</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(tsa_2(p,q,e,c))</span><br></pre></td></tr></table></figure>
-<p>可得</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m=<span class="number">6307076265101868022401168220914091002094923647543913608078494521549403802210173444891094505706734673093765283572976861935581726849816923593651509857540611964713018709162664925976240947063856932023113689107118569968804329173281583483592095382533613111762918421362278333322916021933519728291798749842494918068962745956079827474452589542646246101220774107235973703726237733253085312380677531524226610656535104841419537111452876626825419473934925741346089252331195249707094812401729770078951956524070871949864300367817846976007250758036392548367298788322489841149673899984125317729640492807125318100997973696848942216291</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-      <div>
-        <ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>Post author：</strong>
-    Chung
-  </li>
-  <li class="post-copyright-link">
-    <strong>Post link：</strong>
-    <a href="https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/" title="Python實現RSA算法中的解密過程">https://c0mm1e.github.io/2020/05/07/Python%E5%AF%A6%E7%8F%BERSA%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E8%A7%A3%E5%AF%86%E9%81%8E%E7%A8%8B/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>Copyright Notice： </strong>
-    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.
-  </li>
-</ul>
-
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>機械學習<small>標籤</small>
+        </h1>
       </div>
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-          
-            <a href="/tags/%E5%AF%86%E7%A2%BC%E5%AD%B8/" rel="tag"># 密碼學</a>
-          
-        </div>
-      
 
       
-      
-      
+        
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
+  <article class="post post-type-picture" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-          <span class="post-nav-divider"></span>
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2023/02/14/%E8%AB%96%E6%96%87%E3%80%8CCombining%20satellite%20imagery%20and%20machine%20learning%20to%20predict%20poverty%E3%80%8D%E7%9A%84Paper%20Review/" itemprop="url">
+              
+                <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="論文摘要"><a href="#論文摘要" class="headerlink" title="論文摘要"></a>論文摘要</h2><p>這篇論文主要討論了一個資料分析在社科領域的應用方法，即根據高解析度衛星圖像估算消費支出和資產財富，並以此預測某一地區的貧窮程度。</p>
+<p>首先，作者提到了現實的需求：稀缺的資源和外部的援助需要得到精準地分配，即向最貧困地區的發展傾斜，特別地，這種精準分配對於擁有眾多生活在國際貧困線附近及以下的人口的極度貧困國家更為重要。然而，許多發展中國家由於自身政府羸弱的財政統計系統，而缺乏有關經濟發展關鍵指標的可靠的資料。以最為貧窮的非洲大陸為例，在2000年至2010年期間，59個非洲國家中有39個國家進行的全國性的經濟調查少於兩次，另有阿爾及利亞，索馬利亞，利比亞，波札那等19國甚至从未進行此類調查。</p>
+<p>鑒於擴大傳統資料收集工作的困難，科學家開始考慮使用一些其他的易於收集的資料對地區的經濟資料進行預測。作者首先提及了兩類資料，但隨即列出了兩者的缺點以進行反駁：</p>
+<ol>
+<li><p>來自手機的資料（例如社交媒體或手機網路的資料）：由於依賴不同的專有資料集，可能難以在各國之間推廣。</p>
+</li>
+<li><p>衛星圖像的夜晚光照強度資料：無法區分生活著國際貧困線附近及以下人口的地區的經濟活動差異，也難以區分人口稠密的貧困地區和人口稀少的富裕地區。</p>
+</li>
+</ol>
+<p>然後，作者展示了他們實現的一種新穎的機械學習方法，用於從高解析度白天衛星圖像中提取社會經濟資料。這種方法的簡要過程如下：</p>
+<ol>
+<li>需要注意的是，整個方法基於一個前提，即高解析度衛星圖像可能包含了大量可能與經濟相關的景觀特徵的訊息。</li>
+<li>首先，在龐大的ImageNet資料集上預訓練一個CNN模型，這個模型高度非線性，能夠從圖像中提取複雜的特徵。</li>
+<li>對於最初提到的全國性的經濟調查，即使是那些進行過調查的國家，每個國家的資料集中也只含有數百個可用於訓練的資料點。考慮到資料的缺乏，顯然不能直接使用全國性的經濟調查資料訓練大型CNN模型。</li>
+<li>為了解決資料稀缺問題，作者選擇使用遷移學習的方法。他們利用之前提到的豐富的衛星圖像的夜晚光照強度資料集，先微調CNN模型，使其被訓練為能夠預測與輸入的白天衛星圖像相對應的夜間光照強度。</li>
+<li>作者認為某些解釋夜晚光照強度變化的特徵也可以預測經濟結果。儘管夜晚光照強度在較低支出水平下變化不大，但調查資料表明，白天衛星圖像中可見的其他特徵，例如屋頂材料和到市區的距離，與支出大致呈線性變化。由於夜晚光照強度和這些特徵都顯示出較高收入水平的變化，因此對夜晚光照強度進行訓練可以幫助CNN學習提取此類特徵，從而更有效地捕捉整個收入水平分佈中的變化。</li>
+<li>最後，作者使用調查資料中的平均值以及CNN從白天圖像中提取的相應圖像特徵，訓練出了可以估計集群級別（範圍大致相當於農村地區的村莊或城市地區的選區）的消費支出和資產財富的嶺回歸模型。</li>
+</ol>
+<p>經過評估，作者發現該遷移學習模型可以很好地預測多個非洲國家在集群級別上的平均家庭消費支出和資產財富，且明顯優於僅使用夜晚光照強度資料的方法。</p>
+<h2 id="評論"><a href="#評論" class="headerlink" title="評論"></a>評論</h2><p>這篇論文雖然沒有很多機械學習方法上的創新，但它成功提供了一個相對精準的低成本的預測較小區域經濟狀況的方法，且尤其適用於缺乏全國性經濟調查的貧困的發展中國家。由於高解析度衛星圖像易於獲取且足夠精細，我們或許可以更加精準合理地分配對貧困地區（尤其是非洲大陸）國際性經濟援助。從這點來看，這篇論文確有較強的現實意義。</p>
+<p>但同時也應意識到，這篇論文中的方法仍有缺陷。對於一個國家的資料訓練得到的模型並不能很好地用於其他國家經濟狀況的預測，一個可能的原因是衛星圖像資料並不包含能夠反映國家經濟政策和政治、宗教等制度的特徵，而這些因素與國家經濟有緊密的聯繫。</p>
+<p>最後，在結合此方法進行實際的經濟援助前，我們仍需要結合更多其他領域的資料作出更準確的分析，例如國家或地區的政府腐敗程度或國民受教育程度，這些指標也會對地區受經濟援助後的預期成效有很大的影響。</p>
+<h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>論文連結：<a href="https://www.science.org/doi/10.1126/science.aaf7894" target="_blank" rel="noopener">Combining satellite imagery and machine learning to predict poverty | Science</a></p>
+<p>這篇Paper Review只是我在大學《資料探勘》課程的作業，水準不足請多見諒。另外，本文發表時間為2016年，考慮到機械學習領域的快速發展，這篇論文很可能已經過時。</p>
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/15/Python%E4%B8%AD%E7%8D%B2%E5%8F%96%E7%B5%95%E5%B0%8D%E8%B7%AF%E5%BE%91%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="Python中獲取絕對路徑的方法">
-                Python中獲取絕對路徑的方法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
+              
+            </a>
+        
+      </h2>
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2023-02-14T21:18:34+08:00"
+              content="2023-02-14" >
+          02-14
+        </time>
+      </div>
+
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -547,10 +383,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -571,17 +403,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            本站概覽
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -682,22 +505,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的加密"><span class="nav-number">1.</span> <span class="nav-text">RSA算法的加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成公鑰和私鑰"><span class="nav-number">1.1.</span> <span class="nav-text">生成公鑰和私鑰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密"><span class="nav-number">1.2.</span> <span class="nav-text">加密</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA算法的解密"><span class="nav-number">2.</span> <span class="nav-text">RSA算法的解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#擴展Euclidean算法-EEA"><span class="nav-number">2.1.</span> <span class="nav-text">擴展Euclidean算法 (EEA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Square-and-Multiply算法-SAMA"><span class="nav-number">2.2.</span> <span class="nav-text">Square-and-Multiply算法 (SAMA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密"><span class="nav-number">2.3.</span> <span class="nav-text">解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例題"><span class="nav-number">2.4.</span> <span class="nav-text">例題</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -840,10 +647,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
