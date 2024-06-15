@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="fonts.googleapis.com/css?family=Noto Sans Traditional Chinese:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代數,二進制," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chung的個人網誌" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="題目內容$a_0&#x3D;0$，$\forall 1\le k\le n,\ |a_k|&#x3D;|a_{k-1}+m|\ (m&gt;0)$。求$|\sum\limits_{k&#x3D;1}^n a_k|$的最小值。 解題思路很容易發現$(a_1,\cdots,a_k)$的符合條件的組合一共有$2^n$組，顯然逐個遍歷考慮是很不現實的。 然後想到整個題目可以映射到一個深度為$n$的完美二叉圖上，$(a_1,\cdots">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道代數題">
+<meta property="og:url" content="https://c0mm1e.github.io/2024/06/15/%E4%B8%80%E9%81%93%E4%BB%A3%E6%95%B8%E9%A1%8C/index.html">
+<meta property="og:site_name" content="Chung的個人網誌">
+<meta property="og:description" content="題目內容$a_0&#x3D;0$，$\forall 1\le k\le n,\ |a_k|&#x3D;|a_{k-1}+m|\ (m&gt;0)$。求$|\sum\limits_{k&#x3D;1}^n a_k|$的最小值。 解題思路很容易發現$(a_1,\cdots,a_k)$的符合條件的組合一共有$2^n$組，顯然逐個遍歷考慮是很不現實的。 然後想到整個題目可以映射到一個深度為$n$的完美二叉圖上，$(a_1,\cdots">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-06-15T11:39:15.000Z">
+<meta property="article:modified_time" content="2024-06-15T11:39:15.000Z">
+<meta property="article:author" content="Chung">
+<meta property="article:tag" content="代數">
+<meta property="article:tag" content="二進制">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://c0mm1e.github.io/2024/06/15/一道代數題/"/>
+
+
+
+
+
+  <title>一道代數題 | Chung的個人網誌</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chung的個人網誌</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2024/06/15/%E4%B8%80%E9%81%93%E4%BB%A3%E6%95%B8%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chung的個人網誌">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一道代數題</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2024-06-15T19:39:15+08:00">
+                2024-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B8%E5%AD%B8/" itemprop="url" rel="index">
+                    <span itemprop="name">數學</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="題目內容"><a href="#題目內容" class="headerlink" title="題目內容"></a>題目內容</h2><p>$a_0=0$，$\forall 1\le k\le n,\ |a_k|=|a_{k-1}+m|\ (m&gt;0)$。求$|\sum\limits_{k=1}^n a_k|$的最小值。</p>
+<h2 id="解題思路"><a href="#解題思路" class="headerlink" title="解題思路"></a>解題思路</h2><p>很容易發現$(a_1,\cdots,a_k)$的符合條件的組合一共有$2^n$組，顯然逐個遍歷考慮是很不現實的。</p>
+<p>然後想到整個題目可以映射到一個深度為$n$的完美二叉圖上，$(a_1,\cdots,a_k)$就對應根節點（$a_0$）到某一個葉節點（$a_n$的某一種可能情況）的路徑。根據二叉樹的性質，這時可以較容易想到對所有可能情況進行二進位制編碼。</p>
+<p>例如在下面的解法中，我們將某個代表$a_{k-1}$的可能取值的節點的左子節點考慮為$a_{k-1}+m$，右子節點考慮為$-(a_{k-1}+m)$。當某一路徑經過該節點並前往左子節點時，我們將之編碼為$0$；反之則編碼為$1$。</p>
+<p>在這之後，我們可以先試著檢查一些$n$較小的情況。例如$n=5$時，可以發現$32$組$(a_1,\cdots,a_k)$對應的$\sum\limits_{k=1}^n a_k$的可能取值只有$\{-3, -1, 5, 15\}$，一共$4$種。這時就可以順理成章地做出推測：很多不同$(a_1,\cdots,a_k)$組合得到的$\sum\limits_{k=1}^n a_k$都是重複的。</p>
+<p>下面的代碼用以列出$n=1\sim20$的時候分別對應的取值集合（為方便，這裡$m=1$）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> inf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n+<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decimal_to_binary_list</span><span class="params">(n, len)</span>:</span></span><br><span class="line">    bin_str = format(n, <span class="string">f'0<span class="subst">&#123;len&#125;</span>b'</span>)</span><br><span class="line">    bin_list = [int(bit) <span class="keyword">for</span> bit <span class="keyword">in</span> bin_str]</span><br><span class="line">    <span class="keyword">return</span> bin_list</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(len)</span>:</span></span><br><span class="line">    sum_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span> ** len):</span><br><span class="line">        bin_list = decimal_to_binary_list(i, len)</span><br><span class="line">        a_list = []</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len):</span><br><span class="line">            <span class="keyword">if</span> j&gt;<span class="number">0</span>:</span><br><span class="line">                a_list.append((<span class="number">2</span> * bin_list[j] - <span class="number">1</span>) * f(a_list[<span class="number">-1</span>]))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                a_list.append((<span class="number">2</span> * bin_list[<span class="number">0</span>] - <span class="number">1</span>) * f(<span class="number">0</span>))</span><br><span class="line">        s = sum(a_list)</span><br><span class="line">        <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> sum_list:</span><br><span class="line">            sum_list.append(s)</span><br><span class="line">    <span class="keyword">return</span> sorted(sum_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> len <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">21</span>):</span><br><span class="line">    print(len, calculate(len))</span><br></pre></td></tr></table></figure>
+<p>運行結果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1 [-1, 1]</span><br><span class="line">2 [-1, 3]</span><br><span class="line">3 [-2, 0, 6]</span><br><span class="line">4 [-2, 2, 10]</span><br><span class="line">5 [-3, -1, 5, 15]</span><br><span class="line">6 [-3, 1, 9, 21]</span><br><span class="line">7 [-4, -2, 4, 14, 28]</span><br><span class="line">8 [-4, 0, 8, 20, 36]</span><br><span class="line">9 [-5, -3, 3, 13, 27, 45]</span><br><span class="line">10 [-5, -1, 7, 19, 35, 55]</span><br><span class="line">11 [-6, -4, 2, 12, 26, 44, 66]</span><br><span class="line">12 [-6, -2, 6, 18, 34, 54, 78]</span><br><span class="line">13 [-7, -5, 1, 11, 25, 43, 65, 91]</span><br><span class="line">14 [-7, -3, 5, 17, 33, 53, 77, 105]</span><br><span class="line">15 [-8, -6, 0, 10, 24, 42, 64, 90, 120]</span><br><span class="line">16 [-8, -4, 4, 16, 32, 52, 76, 104, 136]</span><br><span class="line">17 [-9, -7, -1, 9, 23, 41, 63, 89, 119, 153]</span><br><span class="line">18 [-9, -5, 3, 15, 31, 51, 75, 103, 135, 171]</span><br><span class="line">19 [-10, -8, -2, 8, 22, 40, 62, 88, 118, 152, 190]</span><br><span class="line">20 [-10, -6, 2, 14, 30, 50, 74, 102, 134, 170, 210]</span><br></pre></td></tr></table></figure>
+<p>從這個結果出發，很容易發現規律：只有$\lfloor\frac{n+1}{2}\rfloor$種可能取值，且所有取值排序後為二階等差數列。</p>
+<p>這時就應該考慮如何給$\sum\limits_{k=1}^n a_k$相等的不同$(a_1,\cdots,a_k)$組合賦予（或者說尋找）關係，即構造等價關係和等價類。</p>
+<p>這裡還是可以回到$n$較小的情況（例如$n=5$）去尋找關係。最後發現要找的關係和異或運算相關，至此本題即迎刃而解。</p>
+<h2 id="完整步驟"><a href="#完整步驟" class="headerlink" title="完整步驟"></a>完整步驟</h2><p>先考慮引理$\mathrm{I}$：</p>
+<p>所有$n$位二進制數$(b_1b_2\cdots b_n)_2\in 2^n$（其中$\forall i\in[n],\ b_i\in\{0,1\}$）均可表示為以下形式：</p>
+<script type="math/tex; mode=display">(b_1b_2\cdots b_n)_2=(00\cdots 0)_2\oplus c_1\oplus c_2\oplus\cdots\oplus c_m</script><p>其中，$\oplus$是異或符號，$m\in\mathbb{N}$且$0\le m\le \lfloor\frac{n+1}{2}\rfloor$，$c_1,c_2,\cdots ,c_m$兩兩不相等且均屬於集合$A_n$（$A_n$的定義見下）。</p>
+<script type="math/tex; mode=display">A_n=\{(b_1b_2\cdots b_n)_2|1\le j\le n-1,b_j=b_{j+1}=1,\sum_{i=1}^n b_i=2\}\cup\{(100\cdots 0)_2,(00\cdots 01)_2\}</script><p>下面給出證明：</p>
+<p>我們定義累異或符號以便表示：</p>
+<script type="math/tex; mode=display">\mathop\oplus\limits_{i=1}^{m}c_i=c_1\oplus c_2\oplus\cdots\oplus c_m</script><p>特別地，當$m=0$時，$\mathop\oplus\limits_{i=1}^{0}c_i=(00\cdots 0)_2$。</p>
+<p>設$\beta_{j}=(b_1b_2\cdots b_n)_2,1\le j\le n-1,b_j=b_{j+1}=1,\sum\limits_{i=1}^n b_i=2$，</p>
+<p>特別地，$\beta_{0}=(100\cdots 0)_2,\ \beta_{n}=(00\cdots 1)_2$。</p>
+<p>則$A_n$可表示為$A_n=\{\beta_{0},\beta_{1},\cdots,\beta_{n-1},\beta_{n}\}$。</p>
+<p>定義$\gamma_{j,k}=(b_1b_2\cdots b_n)_2,1\le j&lt; k\le n,b_j=b_k=1,\sum_{i=1}^n b_i=2$，容易發現</p>
+<p>$\gamma_{j,k}=\mathop\oplus\limits_{i=j}^{k-1}\beta_{i}$，即$\gamma_{j,k}$可以表示為$k-j$個$A_n$元素的異或。</p>
+<p>對於任意一個$n$位二進制數$(b_1b_2\cdots b_n)_2\in 2^n$，設$b_1,\cdots,b_n$中有$l$個$1$和$n-l$個$0$，所有滿足$b_i=1$的$b_i$的下標分別為$\sigma(1),\cdots,\sigma(l)$。（$\forall 1\le j\le l,\ \sigma(j)\in[n],\ \sigma(1)&lt;\cdots&lt;\sigma(l)$）</p>
+<p>(1). 若$l$為偶數，我們有兩種拼湊異或的方法：</p>
+<p>a. 不使用$\beta_{0},\beta_{n}$：</p>
+<script type="math/tex; mode=display">(b_1b_2\cdots b_n)_2=\mathop\oplus\limits_{i=1}^{l/2}\gamma_{\sigma(2i-1),\sigma(2i)}=\mathop\oplus\limits_{i=1}^{l/2}(\mathop\oplus\limits_{i'=\sigma(2i-1)}^{\sigma(2i)-1}\beta_{i'})</script><p>設這種方法一共會使用$S_1$個$A_n$的不同元素，則</p>
+<script type="math/tex; mode=display">S_1=\sum\limits_{i=1}^{l/2}(\sum\limits_{i'=\sigma(2i-1)}^{\sigma(2i)-1}1)=\sum\limits_{i=1}^{l/2}(\sigma(2i)-\sigma(2i-1))</script><p>b. 同時使用$\beta_{0},\beta_{n}$：</p>
+<script type="math/tex; mode=display">\begin{align}
+(b_1b_2\cdots b_n)_2 & = (\mathop\oplus\limits_{i'=0}^{\sigma(1)-1}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i'  = \sigma(l)}^{n}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{l/2-1}\gamma_{\sigma(2i),\sigma(2i+1)}) \\
+& =(\mathop\oplus\limits_{i'=0}^{\sigma(1)-1}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i'  = \sigma(l)}^{n}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{l/2-1}(\mathop\oplus\limits_{i'=\sigma(2i)}^{\sigma(2i+1)-1}\beta_{i'}))
+\end{align}</script><p>設這種方法一共會使用$S_2$個$A_n$的不同元素，則</p>
+<script type="math/tex; mode=display">\begin{align}
+S_2&=(\sigma(1)-0)+(n+1-\sigma(l))+\sum\limits_{i=1}^{l/2-1}(\sum\limits_{i'=\sigma(2i)}^{\sigma(2i+1)-1}1)\\
+&=n+1+\sigma(1)-\sigma(l)+\sum\limits_{i=1}^{l/2-1}(\sigma(2i+1)-\sigma(2i))
+\end{align}</script><script type="math/tex; mode=display">\begin{align}
+S_1+S_2&=\sum\limits_{i=1}^{l/2}(\sigma(2i)-\sigma(2i-1))+n+1+\sigma(1)-\sigma(l)+\sum\limits_{i=1}^{l/2-1}(\sigma(2i+1)-\sigma(2i))\\
+&=n+1+\sigma(1)-\sigma(l)+(\sigma(l)-\sigma(1))\\
+&\le n+1
+\end{align}</script><p>$\min\{S_1,S_2\}\le\frac{S_1+S_2}{2}\le\frac{n+1}{2}$，顯然$\min\{S_1,S_2\}\in\mathbb N$，因此$\min\{S_1,S_2\}\le\lfloor\frac{n+1}{2}\rfloor$。</p>
+<p>(2). 若$l$為奇數，我們亦有兩種拼湊異或的方法：</p>
+<p>a. 使用$\beta_{0}$但不使用$\beta_{n}$：</p>
+<script type="math/tex; mode=display">\begin{align}
+(b_1b_2\cdots b_n)_2 & = (\mathop\oplus\limits_{i'  = 0}^{\sigma(1)-1}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{(l-1)/2}\gamma_{\sigma(2i),\sigma(2i+1)}) \\
+& = (\mathop\oplus\limits_{i'  = 0}^{\sigma(1)-1}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{(l-1)/2}(\mathop\oplus\limits_{i'=\sigma(2i)}^{\sigma(2i+1)-1}\beta_{i'}))
+\end{align}</script><p>設這種方法一共會使用$S_3$個$A_n$的不同元素，則</p>
+<script type="math/tex; mode=display">\begin{align}
+S_3&=(\sigma(1)-0)+\sum\limits_{i=1}^{(l-1)/2}(\sum\limits_{i'=\sigma(2i)}^{\sigma(2i+1)-1}1)\\
+&=\sigma(1)+\sum\limits_{i=1}^{(l-1)/2}(\sigma(2i+1)-\sigma(2i))
+\end{align}</script><p>b. 不使用$\beta_{0}$但使用$\beta_{n}$：</p>
+<script type="math/tex; mode=display">\begin{align}
+(b_1b_2\cdots b_n)_2 & = (\mathop\oplus\limits_{i'  = \sigma(l)}^{n}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{(l-1)/2}\gamma_{\sigma(2i-1),\sigma(2i)}) \\
+& = (\mathop\oplus\limits_{i'  = \sigma(l)}^{n}\beta_{i'})\oplus
+(\mathop\oplus\limits_{i  = 1}^{(l-1)/2}(\mathop\oplus\limits_{i'=\sigma(2i-1)}^{\sigma(2i)-1}\beta_{i'}))
+\end{align}</script><p>設這種方法一共會使用$S_4$個$A_n$的不同元素，則</p>
+<script type="math/tex; mode=display">\begin{align}
+S_4&=(n+1-\sigma(l))+\sum\limits_{i=1}^{(l-1)/2}(\sum\limits_{i'=\sigma(2i-1)}^{\sigma(2i)-1}1)\\
+&=n+1-\sigma(l)+\sum\limits_{i=1}^{(l-1)/2}(\sigma(2i)-\sigma(2i-1))
+\end{align}</script><script type="math/tex; mode=display">\begin{align}
+S_3+S_4&=n+1+\sigma(1)-\sigma(l)+\sum\limits_{i=1}^{(l-1)/2}(\sigma(2i)-\sigma(2i-1))+\sum\limits_{i=1}^{(l-1)/2}(\sigma(2i+1)-\sigma(2i))\\
+&=n+1+\sigma(1)-\sigma(l)+(\sigma(l)-\sigma(1))\\
+&\le n+1
+\end{align}</script><p>同理可得$\min\{S_3,S_4\}\le\lfloor\frac{n+1}{2}\rfloor$。</p>
+<p>綜上，對於任意的$n$位二進制數$(b_1b_2\cdots b_n)_2$，均能將之表示為不多於$\lfloor\frac{n+1}{2}\rfloor$個$A_n$的不同元素的異或。</p>
+<p>引理$\mathrm{I} $得證。</p>
+<p>回到題目，易發現$\sum\limits_{k=1}^n a_k\in\{vm|v\in\mathbb{Z}\}$，且 $\max\left\{\sum\limits_{k=1}^n a_k\right\}=\sum\limits_{k=1}^nm=m\cdot\frac{n(n+1)}{2}$。</p>
+<p>定義映射$f:2^n\to\{vm|v\in\mathbb{Z}\}^n$，由$n$位二進制數$(b_1b_2\cdots b_n)_2$映射得到的像$(a_1,\cdots,a_n)$滿足</p>
+<script type="math/tex; mode=display">\forall 1\le k\le n,\ a_k=(1-2b_k)(a_{k-1}+m)</script><p>顯然$f$是單射，且$f$的值域是所有滿足條件的$(a_1,\cdots,a_n)$的集合。</p>
+<p>另外，為了方便，我們設</p>
+<script type="math/tex; mode=display">d_n=1-2b_n\in\{1,-1\}</script><p>考慮引理$\mathrm{II} $：</p>
+<p>對於任意的$n$位二進制數$(b_1b_2\cdots b_n)_2$，假設其最少可以表示為$t((b_1b_2\cdots b_n)_2)$個$A_n$的不同元素的異或。</p>
+<p>（由引理I可知$0\le t((b_1b_2\cdots b_n)_2)\le \lfloor\frac{n+1}{2}\rfloor$）</p>
+<p>若在上述表達式中沒有出現$\beta_{j}$，令</p>
+<script type="math/tex; mode=display">\Delta((b_1b_2\cdots b_n)_2,j)=\sum\limits_{i=1}^j\prod\limits_{i'=i}^jd_{i}+\sum\limits_{i=j+1}^n\prod\limits_{i'=j+1}^{i}d_{i}</script><p>則對於任意滿足條件的$j$，有</p>
+<script type="math/tex; mode=display">\Delta((b_1b_2\cdots b_n)_2,j)=n-2t((b_1b_2\cdots b_n)_2)</script><p>下面給出證明：</p>
+<p>(1). 當$t((b_1b_2\cdots b_n)_2)=0$時，$(b_1b_2\cdots b_n)_2$僅有一個符合條件的取值$(00\cdots0)_2$，滿足條件；</p>
+<p>(2). 假設$t((b_1b_2\cdots b_n)_2)=t_0\ (0\le t_0&lt;\lfloor\frac{n+1}{2}\rfloor)$時結論成立。</p>
+<p>當$t((b_1b_2\cdots b_n)_2)=t_0+1$時，假設其異或表達式為$\mathop\oplus\limits_{i=1}^{t_0+1}\beta_{\sigma(i)}$。</p>
+<p>考慮$(b_1’b_2’\cdots b_n’)_2=\mathop\oplus\limits_{i=1}^{t_0}\beta_{\sigma(i)}$，顯然有$t((b_1’b_2’\cdots b_n’)_2)=t_0$，</p>
+<p>且$(b_1b_2\cdots b_n)_2=(b_1’b_2’\cdots b_n’)_2\oplus\beta_{\sigma(t_0+1)}$。</p>
+<p>$\forall j\in\{0,1,\cdots,n\}\backslash\{\sigma(i)|1\le i \le t_0+1\}$：</p>
+<p>a. 若$j&lt;\sigma(t_0+1)$，考慮$d_{j+1}’,\cdots,d_{\sigma(t_0+1)}’$中$-1$的個數。</p>
+<p>顯然，對於$A_n$中的元素，只有$\beta_{j},\beta_{j+1},\cdots,\beta_{\sigma(t_0+1)-1},\beta_{\sigma(t_0+1)}$能改變這個值。</p>
+<p>而我們已知$(b_1’b_2’\cdots b_n’)_2$的異或表達式中不包含$\beta_{j},\beta_{\sigma(t_0+1)}$，因此$d_{j+1}’,\cdots,d_{\sigma(t_0+1)}’$中$-1$的個數隻受$\beta_{j+1},\cdots,\beta_{\sigma(t_0+1)-1}$影響。</p>
+<p>這之中的每個$\beta$都可使$d_{j+1}’,\cdots,d_{\sigma(t_0+1)}’$中的兩個數取反（即$0\mapsto1,1\mapsto 0$），其中$-1$的個數的所有變化可能為$+2,-2,0$。</p>
+<p>又知初始情況$(00\cdots 0)_2$中，下標在$j+1\sim\sigma(t_0+1)$範圍內的數有$0$個為$1$。</p>
+<p>由此可知$d_{j+1}’,\cdots,d_{\sigma(t_0+1)}’$中有偶數個$1$，即有</p>
+<script type="math/tex; mode=display">\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}'=1</script><p>又因為$(b_1b_2\cdots b_n)_2=(b_1’b_2’\cdots b_n’)_2\oplus\beta_{\sigma(t_0+1)}$，而$\beta_{\sigma(t_0+1)}$只能使$d_{j+1}’,\cdots,d_{\sigma(t_0+1)}’$的其中一個數取反，其中$-1$的個數的所有變化可能為$+1,-1$。</p>
+<p>因此$d_{j+1},\cdots,d_{\sigma(t_0+1)}$中有奇數個$-1$，即有</p>
+<script type="math/tex; mode=display">\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}=-1</script><p>結合$d_i$和$d_i’$的關係</p>
+<script type="math/tex; mode=display">d_i=\begin{cases}d_i'&,i\not\in\{\sigma(t_0+1),\sigma(t_0+1)+1\}\\-d_i'&,i\in\{\sigma(t_0+1),\sigma(t_0+1)+1\}\end{cases}</script><p>可知</p>
+<script type="math/tex; mode=display">\begin{align}
+&\Delta((b_1b_2\cdots b_n)_2,j)-\Delta((b_1'b_2'\cdots b_n')_2,j)\\
+=&\sum\limits_{i=1}^j\left(\prod\limits_{i'=i}^jd_{i'}-\prod\limits_{i'=i}^jd_{i'}'\right)+\sum\limits_{i=j+1}^n\left(\prod\limits_{i'=j+1}^{i'}d_{i'}-\prod\limits_{i'=j+1}^{i'}d_{i'}'\right)\\
+=&\sum\limits_{i=j+1}^n\left(\prod\limits_{i'=j+1}^{i}d_{i'}-\prod\limits_{i'=j+1}^{i}d_{i'}'\right)\\
+=&\sum\limits_{i=j+1}^{\sigma(t_0+1)-1}\left(\prod\limits_{i'=j+1}^{i}d_{i'}-\prod\limits_{i'=j+1}^{i}d_{i'}'\right)+\\
+&\left(\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}-\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}'\right)+
+\sum\limits_{i=\sigma(t_0+1)+1}^n\left(\prod\limits_{i'=j+1}^{i}d_{i'}-\prod\limits_{i'=j+1}^{i}d_{i'}'\right)\\
+=&\left(\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}-\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}'\right)+
+\sum\limits_{i=\sigma(t_0+1)+1}^n\left(\prod\limits_{i'=j+1}^{i}d_{i'}-\prod\limits_{i'=j+1}^{i}d_{i'}'\right)\\
+\end{align}</script><p>其中左部分：</p>
+<script type="math/tex; mode=display">\begin{align}
+&\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}-\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}'\\
+=&(d_{\sigma(t_0+1)}-d_{\sigma(t_0+1)}')\prod\limits_{i'=j+1}^{\sigma(t_0+1)-1}d_{i'}'\\
+=&(-d_{\sigma(t_0+1)}'-d_{\sigma(t_0+1)}')\prod\limits_{i'=j+1}^{\sigma(t_0+1)-1}d_{i'}'\\
+=&-2d_{\sigma(t_0+1)}'\prod\limits_{i'=j+1}^{\sigma(t_0+1)-1}d_{i'}'\\
+=&-2\prod\limits_{i'=j+1}^{\sigma(t_0+1)}d_{i'}'\\
+=&-2
+\end{align}</script><p>右部分：</p>
+<script type="math/tex; mode=display">\begin{align}
+&\sum\limits_{i=\sigma(t_0+1)+1}^n\left(\prod\limits_{i'=j+1}^{i}d_{i'}-\prod\limits_{i'=j+1}^{i}d_{i'}'\right)\\
+=&\sum\limits_{i=\sigma(t_0+1)+1}^n\Bigg(d_{\sigma(t_0+1)}d_{\sigma(t_0+1)+1}\prod\limits_{i'\not\in\{\sigma(t_0+1),\sigma(t_0+1)+1\}}^{j+1\le i'\le i}d_{i'}-d_{\sigma(t_0+1)}'d_{\sigma(t_0+1)+1}'\prod\limits_{i'\not\in\{\sigma(t_0+1),\sigma(t_0+1)+1\}}^{j+1\le i'\le i}d_{i'}'\Bigg)\\
+=&\sum\limits_{i=\sigma(t_0+1)+1}^n\left(\left(d_{\sigma(t_0+1)}d_{\sigma(t_0+1)+1}-d_{\sigma(t_0+1)}'d_{\sigma(t_0+1)+1}'\right)\prod\limits_{i'\not\in\{\sigma(t_0+1),\sigma(t_0+1)+1\}}^{j+1\le i'\le i}d_{i'}'\right)\\
+=&0\end{align}</script><p>因此有</p>
+<script type="math/tex; mode=display">\Delta((b_1b_2\cdots b_n)_2,j)-\Delta((b_1'b_2'\cdots b_n')_2,j)=-2+0=-2</script><p>b. 若$j&gt;\sigma(t_0+1)$，同理可得</p>
+<script type="math/tex; mode=display">\Delta((b_1b_2\cdots b_n)_2,j)-\Delta((b_1'b_2'\cdots b_n')_2,j)=-2</script><p>綜上，且因為$t=t_0$時結論成立，我們有</p>
+<script type="math/tex; mode=display">\Delta((b_1b_2\cdots b_n)_2,j)=\Delta((b_1'b_2'\cdots b_n')_2,j)-2=(n-2t_0)-2=n-2(t_0+1)</script><p>這說明$t=t_0+1$時結論亦成立。由數學歸納法，引理$\mathrm{II} $得證。</p>
+<p>對於滿足$t((b_1b_2\cdots b_n)_2)\ge1$的$(b_1b_2\cdots b_n)_2$，</p>
+<p>假設其異或表達式為$\mathop\oplus\limits_{i=1}^{t((b_1b_2\cdots b_n)_2)}\beta_{\sigma(i)}$，設其中最後一項為$\beta_{j}$。</p>
+<p>考慮</p>
+<script type="math/tex; mode=display">(b_1'b_2'\cdots b_n')_2=\mathop\oplus\limits_{i=1}^{t((b_1b_2\cdots b_n)_2)-1}\beta_{\sigma(i)}</script><p>顯然有$t((b_1’b_2’\cdots b_n’)_2)=t((b_1b_2\cdots b_n)_2)-1$，且$(b_1b_2\cdots b_n)_2=(b_1’b_2’\cdots b_n’)_2\oplus\beta_{j}$。</p>
+<p>由此可知$\forall 1\le k \le j-1,\ b_k=b_k’,\ a_k=a_k’$；$a_j=-a_j’$。</p>
+<p>另，$a_j’=d_j’(d_{j-1}’\cdots (d_1’(a_0’+m)\cdots)+m)=m\sum\limits_{i=1}^j\prod\limits_{i’=i}^jd_{i’}’$（觀察$m$的係數易得之）</p>
+<p>若$b_{j+1}’=0$，則$b_{j+1}=1$，</p>
+<script type="math/tex; mode=display">a_{j+1}-a_{j+1}'=-(a_j+m)-(a_j'+m)=-2m=-2md_{j+1}'</script><p>若$b_{j+1}’=1$，則$b_{j+1}=0$，</p>
+<script type="math/tex; mode=display">a_{j+1}-a_{j+1}'=(a_j+m)+(a_j'+m)=2m=-2md_{j+1}'</script><p>綜上，$a_{j+1}-a_{j+1}’=-2md_{j+1}’$。</p>
+<p>$\forall j+2\le k\le n,\ b_k=b_k’$，因此</p>
+<script type="math/tex; mode=display">a_k-a_k'=d_ka_{k-1}-d_k'a_{k-1}'=d_k'(a_{k-1}-a_{k-1}')</script><p>由此推得</p>
+<script type="math/tex; mode=display">a_k-a_k'=(a_{j+1}-a_{j+1}')\prod\limits_{k'=j+2}^k(d_{k'}')</script><p>設$\Sigma((b_1b_2\cdots b_n)_2)=\sum\limits_{k=1}^n a_k$，結合引理II可知，</p>
+<script type="math/tex; mode=display">\begin{align}
+&\Sigma((b_1b_2\cdots b_n)_2)-\Sigma((b_1'b_2'\cdots b_n')_2)\\
+=&\sum\limits_{i=1}^n (a_i-a_i')\\
+=&\sum\limits_{i=1}^{j-1} (a_i-a_i')+(a_j-a_j')+\sum\limits_{i=j+1}^n (a_i-a_i')\\
+=&-2a_j'+(a_{j+1}-a_{j+1}')(1+\sum\limits_{i=j+2}^n\prod\limits_{i'=j+2}^id_{i'}')\\
+=&-2m\sum\limits_{i=1}^j\prod\limits_{i'=i}^jd_{i'}'-2md_{j+1}'(1+\sum\limits_{i=j+2}^n\prod\limits_{i'=j+2}^id_{i'}')\\
+=&-2m(\sum\limits_{i=1}^j\prod\limits_{i'=i}^jd_{i'}'+\sum\limits_{i=j+1}^n\prod\limits_{i'=j+1}^id_{i'}')\\
+=&-2m(n-2t((b_1'b_2'\cdots b_n')_2))\\
+=&-2m(n+2-2t((b_1b_2\cdots b_n)_2))
+\end{align}</script><p>累加可得：</p>
+<p>$\begin{align}<br>&amp;\Sigma((b_1b_2\cdots b_n)_2)\\<br>=&amp;\Sigma((00\cdots 0)_2)+\sum\limits_{t=1}^{t((b_1b_2\cdots b_n)_2)}(-2m(n+2-2t))\\<br>=&amp;m\cdot\frac{n(n+1)}{2}+4m\sum\limits_{t=1}^{t((b_1b_2\cdots b_n)_2)}(t-\frac{n}{2}-1)\\<br>=&amp;m\cdot\frac{n(n+1)}{2}+4m(\frac{t((b_1b_2\cdots b_n)_2)(t((b_1b_2\cdots b_n)_2)+1)}{2}-t((b_1b_2\cdots b_n)_2)(\frac{n}{2}+1))\\<br>=&amp;m\cdot\frac{n(n+1)}{2}-2mt((b_1b_2\cdots b_n)_2)(n+1-t((b_1b_2\cdots b_n)_2))<br>\end{align}$</p>
+<p>我們知道$0\le t((b_1b_2\cdots b_n)_2)\le \lfloor\frac{n+1}{2}\rfloor$，且下面的構造說明$t((b_1b_2\cdots b_n)_2)$可以取遍$0,1,\cdots,\lfloor\frac{n+1}{2}\rfloor$所有$\lfloor\frac{n+1}{2}\rfloor+1$種可能的值：</p>
+<p>顯然$(00\cdots 0)_2$是滿足$t((b_1b_2\cdots b_n)_2)=0$的構造。對於$t((b_1b_2\cdots b_n)_2)&gt;0$的情況，</p>
+<p>令$b_i=1(1\le i\le \lfloor\frac{n+1}{2}\rfloor),\ \sum\limits_{j=1}^{n}b_j=1$，可知</p>
+<p>$(b_1b_2\cdots b_n)_2=\mathop\oplus\limits_{j=0}^{i-1}\beta_{j}$，是滿足$t((b_1b_2\cdots b_n)_2)=i$的構造。</p>
+<p>至此，我們證明了$\Sigma((b_1b_2\cdots b_n)_2)$有且僅有$\lfloor\frac{n+1}{2}\rfloor+1$種可能的取值，</p>
+<p>所有可能的取值的集合為</p>
+<script type="math/tex; mode=display">T_n=\{m\cdot\frac{n(n+1)}{2}-2mt(n+1-t)|t\in\mathbb{N},0\le t\le \lfloor\frac{n+1}{2}\rfloor\}</script><p>最後，我們將尋找$T_n$中絕對值最小的元素。</p>
+<p>設$\Sigma_t=m\cdot\frac{n(n+1)}{2}-2mt(n+1-t)$，固定$m,n$的值。</p>
+<p>發現關於$t$的二次函數$2mt(n+1-t)$中線為$t=\frac{n+1}{2}\ge \lfloor\frac{n+1}{2}\rfloor$，</p>
+<p>因此數列$\{\Sigma_t\}_{(0\le t\le \lfloor\frac{n+1}{2}\rfloor)}$嚴格遞減，且最大值為</p>
+<script type="math/tex; mode=display">\Sigma_0=m\cdot\frac{n(n+1)}{2}>0</script><p>最小值為</p>
+<script type="math/tex; mode=display">\Sigma_{\lfloor\frac{n+1}{2}\rfloor}=m\cdot\frac{n(n+1)}{2}-2m\lfloor\frac{n+1}{2}\rfloor(n+1-\lfloor\frac{n+1}{2}\rfloor)</script><p>當$n$為偶數時，</p>
+<script type="math/tex; mode=display">\Sigma_{\lfloor\frac{n+1}{2}\rfloor}=\Sigma_{\frac{n}{2}}=m\cdot\frac{n(n+1)}{2}-2m\cdot\frac{n}{2}(n+1-\frac{n}{2})=-m\cdot\frac{n}{2}<0</script><p>當$n$為奇數時，</p>
+<script type="math/tex; mode=display">\Sigma_{\lfloor\frac{n+1}{2}\rfloor}=\Sigma_{\frac{n+1}{2}}=m\cdot\frac{n(n+1)}{2}-2m\cdot\frac{n+1}{2}(n+1-\frac{n+1}{2})=-m\cdot\frac{n+1}{2}<0</script><p>綜上，對於任意的$n$，</p>
+<script type="math/tex; mode=display">\Sigma_{\lfloor\frac{n+1}{2}\rfloor}<0</script><p>由此可知存在$0\le i_0\le \lfloor\frac{n+1}{2}\rfloor-1$，使得$\Sigma_{i_0}\ge 0\ge\Sigma_{i_0+1}$，顯然</p>
+<script type="math/tex; mode=display">\begin{cases}\Sigma_0>\Sigma_1>\cdots>\Sigma_{i_0}\ge 0\\\Sigma_{\lfloor\frac{n+1}{2}\rfloor}<\Sigma_{\lfloor\frac{n+1}{2}\rfloor-1}<\cdots<\Sigma_{i_0+1}\le 0\end{cases}</script><p>因此</p>
+<script type="math/tex; mode=display">\min\limits_{0\le t\le \lfloor\frac{n+1}{2}\rfloor}\{|\Sigma_t|\}=\min\{\Sigma_{i_0},-\Sigma_{i_0+1}\}</script><p>具體地，如果希望求得$i_0$的值，考慮關於$t$的二次函數</p>
+<script type="math/tex; mode=display">g(t)=m\cdot\frac{n(n+1)}{2}-2mt(n+1-t)=2m(t^2-(n+1)t+\frac{n(n+1)}{4})</script><p>由$\Delta=4m^2((n+1)^2-n(n+1))=4m^2(n+1)&gt;0$可知，該函數與$y$軸有兩個交點$(x_1,0),(x_2,0)\ (x_1&lt;x_2)$。</p>
+<p>由於$t$的範圍限制，我們只需要關注左邊的交點$(x_1,0)$，其中</p>
+<script type="math/tex; mode=display">x_1=\frac{2m(n+1)-\sqrt{\Delta}}{4m}=\frac{n+1-\sqrt{n+1}}{2}</script><p>由$\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor\le x_1\le\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor+1$可知，</p>
+<script type="math/tex; mode=display">\Sigma_{\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor}\ge 0\ge\Sigma_{\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor+1}</script><p>因此$\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor$是$i_0$的一個可能值，進而有</p>
+<script type="math/tex; mode=display">\min\limits_{0\le t\le \lfloor\frac{n+1}{2}\rfloor}\{|\Sigma_t|\}=\min\{\Sigma_{\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor},-\Sigma_{\lfloor\frac{n+1-\sqrt{n+1}}{2}\rfloor+1}\}</script><p>絕對值取最小值時的具體構造參見前面的部分。 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author：</strong>
+    Chung
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link：</strong>
+    <a href="https://c0mm1e.github.io/2024/06/15/%E4%B8%80%E9%81%93%E4%BB%A3%E6%95%B8%E9%A1%8C/" title="一道代數題">https://c0mm1e.github.io/2024/06/15/%E4%B8%80%E9%81%93%E4%BB%A3%E6%95%B8%E9%A1%8C/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice： </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E4%BB%A3%E6%95%B8/" rel="tag"># 代數</a>
+          
+            <a href="/tags/%E4%BA%8C%E9%80%B2%E5%88%B6/" rel="tag"># 二進制</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/02/17/%E4%BD%BF%E7%94%A8matplotlib%E7%B9%AA%E8%A3%BD%E5%BE%AA%E7%92%B0%E8%B3%87%E6%96%99/" rel="next" title="使用matplotlib繪製循環資料">
+                <i class="fa fa-chevron-left"></i> 使用matplotlib繪製循環資料
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chung" />
+            
+              <p class="site-author-name" itemprop="name">Chung</p>
+              <p class="site-description motion-element" itemprop="description">ご訪問を歓迎する</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/c0mm1e" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chungmy28@gmail.com" target="_blank" title="Email">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>Email</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.reddit.com/r/chonglangTV" title="永不陷落的堡壘(test)" target="_blank">永不陷落的堡壘(test)</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#題目內容"><span class="nav-number">1.</span> <span class="nav-text">題目內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解題思路"><span class="nav-number">2.</span> <span class="nav-text">解題思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整步驟"><span class="nav-number">3.</span> <span class="nav-text">完整步驟</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
