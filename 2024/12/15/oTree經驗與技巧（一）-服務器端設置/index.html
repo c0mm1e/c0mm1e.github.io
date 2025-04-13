@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="fonts.googleapis.com/css?family=Noto Sans Traditional Chinese:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,全棧,Django,oTree,服務器," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chung的個人博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言oTree介紹oTree是一個基於Python的框架，主要用於構建調查問卷和經濟學或心理學實驗。與一般的實驗平臺（例如Qualtrics）不同，oTree可以在代碼層面對項目作更自由的個性化設置，也可以自由部署服務器而非使用平臺自帶的服務器。 oTree雖有官方中文教程（同時亦有英文、日文教程），但許多部分講解不甚詳細、語焉不詳，非常不適宜初學者學習。因此，在參閱官方教程的同時，本人也強烈建議">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oTree經驗與技巧（一） 服務器端設置">
+<meta property="og:url" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Chung的個人博客">
+<meta property="og:description" content="前言oTree介紹oTree是一個基於Python的框架，主要用於構建調查問卷和經濟學或心理學實驗。與一般的實驗平臺（例如Qualtrics）不同，oTree可以在代碼層面對項目作更自由的個性化設置，也可以自由部署服務器而非使用平臺自帶的服務器。 oTree雖有官方中文教程（同時亦有英文、日文教程），但許多部分講解不甚詳細、語焉不詳，非常不適宜初學者學習。因此，在參閱官方教程的同時，本人也強烈建議">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_info.png">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_os.png">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_user.png">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_monitor.png">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/orca_shell.png">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_check.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_check_warning.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_firewall.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/otree_login.jpg">
+<meta property="og:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/otree_logout.jpg">
+<meta property="article:published_time" content="2024-12-14T22:32:12.000Z">
+<meta property="article:modified_time" content="2024-12-14T22:32:12.000Z">
+<meta property="article:author" content="Chung">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="全棧">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="oTree">
+<meta property="article:tag" content="服務器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/server_info.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://c0mm1e.github.io/2024/12/15/oTree經驗與技巧（一）-服務器端設置/"/>
+
+
+
+
+
+  <title>oTree經驗與技巧（一） 服務器端設置 | Chung的個人博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chung的個人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chung的個人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">oTree經驗與技巧（一） 服務器端設置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2024-12-15T06:32:12+08:00">
+                2024-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E8%A1%93/" itemprop="url" rel="index">
+                    <span itemprop="name">技術</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="oTree介紹"><a href="#oTree介紹" class="headerlink" title="oTree介紹"></a>oTree介紹</h2><p>oTree是一個基於Python的框架，主要用於構建調查問卷和經濟學或心理學實驗。與一般的實驗平臺（例如<a href="https://www.qualtrics.com/" target="_blank" rel="noopener">Qualtrics</a>）不同，oTree可以在代碼層面對項目作更自由的個性化設置，也可以自由部署服務器而非使用平臺自帶的服務器。</p>
+<p>oTree雖有<a href="https://otree.readthedocs.io/zh-cn" target="_blank" rel="noopener">官方中文教程</a>（同時亦有<a href="https://otree.readthedocs.io/en" target="_blank" rel="noopener">英文</a>、<a href="https://otree.readthedocs.io/ja" target="_blank" rel="noopener">日文</a>教程），但許多部分講解不甚詳細、語焉不詳，非常不適宜初學者學習。因此，在參閱官方教程的同時，本人也強烈建議多多參考互聯網上的一些精良的非官方教程，例如：<a href="https://slides-otree-tutorial.netlify.app/1" target="_blank" rel="noopener">oTree : A Crash Course - Slidev</a>（簡體中文）。</p>
+<h2 id="新舊版本差異"><a href="#新舊版本差異" class="headerlink" title="新舊版本差異"></a>新舊版本差異</h2><p>另外需要注意的是，oTree是一個活躍至今且更新頻繁的框架，其間更是經歷過一次不能向下兼容的大更新（例如Python3之於Python2）。在互聯網上尋找教程時，請務必確認教程對應的版本和您所使用的版本無較大差別。</p>
+<p>例如，在舊版本中，模型和頁面分別在應用目錄的<code>models.py</code>和<code>pages.py</code>中設定，而新版本將之合併為了一個文件<code>__init__.py</code>。另外，舊版本的HTML模板在應用的<code>templates/</code>目錄下，而新版本的模板是在應用的根目錄下。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/81214979" target="_blank" rel="noopener">如何利用Python + oTree框架编写在线的心理学测验（持续更新…） - 知乎</a>就是一篇典型的對應舊版本的教程，請在查閱時注意辨別。</p>
+<h2 id="使用版本"><a href="#使用版本" class="headerlink" title="使用版本"></a>使用版本</h2><p>本文（以及同一系列教程）所使用的相關項目的版本如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>oTree</td>
+<td>5.11.0</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.10</td>
+</tr>
+<tr>
+<td>psycopg2</td>
+<td>2.9.10</td>
+</tr>
+<tr>
+<td>psql</td>
+<td>14.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="準備服務器"><a href="#準備服務器" class="headerlink" title="準備服務器"></a>準備服務器</h1><p>縱然oTree的官方教程推薦Heroku作為項目的服務器，但Heroku只能選擇使用歐洲和美國的服務器，對中國大陸地區的訪問並不友好。因此，若是為了自行部署特定區域的服務器，本人推薦設置一個Linux專用服務器。</p>
+<p>就中國大陸而言，若是需要在互聯網上發佈oTree項目，最好向提供雲服務的平臺（例如<a href="https://cloud.tencent.com/" target="_blank" rel="noopener">騰訊雲</a>、<a href="https://cn.aliyun.com/" target="_blank" rel="noopener">阿里雲</a>等）租借服務器。對於一般的實驗任務，選用小型的服務器（2核CPU+2GB內存）即可滿足要求。</p>
+<p>以騰訊雲為例，成功租借服務器後，可在服務器列表點選對應的服務器並進入服務器管理頁面（見下圖）。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="server_info.png" width = "50%" alt=""/>
+    <br>
+</center>
+
+<p>平臺可以幫助安裝操作系統（見下圖），本人使用的是Ubuntu 22.04 LTS。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="server_os.png" width = "100%" alt=""/>
+    <br>
+</center>
+
+<p>在這個頁面也可以設置服務器用戶的密碼（Ubuntu系統中，默認的超級用戶為<code>ubuntu</code>）。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="server_user.png" width = "60%" alt=""/>
+    <br>
+</center>
+
+<h2 id="登錄服務器"><a href="#登錄服務器" class="headerlink" title="登錄服務器"></a>登錄服務器</h2><p>在這之後，我們就可以登錄服務器並訪問服務器終端了。登錄服務器一般有兩種方法：</p>
+<p>一、（推薦）使用騰訊雲自帶的遨馳終端（OrcaTerm）。在服務器的管理頁面點擊「登錄」按鈕即可打開終端（見下圖），這相當於是在瀏覽器訪問服務器終端。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="server_monitor.png" width = "100%" alt=""/>
+    <br>
+</center>
+
+<p>下圖是透過OrcaTerm登錄服務器出現的歡迎文本，介面風格（包括背景顏色）可在設置中調整。如果沒有差錯的話，到這一步終端顯示的將會是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@&lt;xxx&gt;:~$</span><br></pre></td></tr></table></figure>
+<p>這表明現在終端使用的用戶為<code>ubuntu</code>。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="orca_shell.png" width = "100%" alt=""/>
+    <br>
+</center>
+
+<p>二、也可以使用Powershell通過ssh遠程連接至服務器，只需在Powershell中輸入以下命令，然後輸入對應用戶名的密碼即可：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &lt;your_username&gt;<span class="selector-tag">@</span>&lt;your_ip_address&gt;</span><br></pre></td></tr></table></figure>
+<p>其中：<code>your_username</code>是服務器的用戶名（Ubuntu默認情況下即是<code>ubuntu</code>），<code>your_ip_address</code>是服務器的IP地址（公網地址，可在騰訊雲的控制檯查看，應為IPv4格式）。</p>
+<h1 id="服務器端操作"><a href="#服務器端操作" class="headerlink" title="服務器端操作"></a>服務器端操作</h1><p>成功訪問服務器終端後，我們得到的是一個全新的服務器（從Ubuntu 20.04開始，系統會預裝Python 3）。現在即可配置oTree項目所需的環境。</p>
+<p>這裡將列出Linux終端中最常用的三個命令，在之後的實際操作中會大量使用這些命令，請務必熟悉用法。</p>
+<ol>
+<li><code>ls</code>：用以顯示當前目錄的所有內容（包括文件和子目錄）。</li>
+<li><p><code>cd</code>：用以改變當前工作目錄。</p>
+<blockquote>
+<p>例：假設當前工作目錄為<code>/home/ubuntu</code>，而這個目錄下有一個名為<code>folder</code>的文件夾，就可以使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> folder</span><br></pre></td></tr></table></figure>
+<p>前往<code>folder</code>文件夾，這時工作目錄也會變成<code>/home/ubuntu/folder</code>。</p>
+<p>＊另有一些特殊的<code>cd</code>命令：<br>a. <code>cd /</code>：跳轉至（所有用戶共享的）根目錄。<br>b. <code>cd ~</code>：跳轉至當前用戶的家目錄。以默認用戶<code>ubuntu</code>為例，即是<code>/home/ubuntu</code>。<br>c. <code>cd ../</code>（重要）：返回上一層目錄。</p>
+</blockquote>
+</li>
+<li><code>pwd</code>：英文全稱為print work directory，用以顯示當前目錄，即返回當前工作目錄的絕對路徑名稱。</li>
+</ol>
+<h2 id="服務器配置（一次性）"><a href="#服務器配置（一次性）" class="headerlink" title="服務器配置（一次性）"></a>服務器配置（一次性）</h2><h3 id="一、安裝pip"><a href="#一、安裝pip" class="headerlink" title="一、安裝pip"></a>一、安裝pip</h3><ol>
+<li><p>更新系統的APT索引：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>sudo</code>是Linux的命令前綴，表示以系統管理員的身份執行指令。</li>
+<li>APT（Advanced Packaging Tools，高級打包工具），是Ubuntu用以管理軟件包的工具。</li>
+<li><p><strong>建議時常執行該指令保證軟件版本為最新。</strong>不過這一行指令只會更新軟件包列表和版本資訊，但不會真正安裝或升級任何軟件。若需要升級現有軟件，需要在此之後執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<p>在成功執行以上兩步後，再次執行<code>sudo apt update</code>將會得到包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">All packages are up to date.</span><br></pre></td></tr></table></figure>
+<p>的輸出，說明系統現有的所有軟件版本已是最新。</p>
+</li>
+</ul>
+</li>
+<li><p>檢查系統默认的Python3版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 --version</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這一步的成功輸出類似<code>Python 3.xx.xx</code>，說明可以使用<code>python3</code>這個命令。</li>
+<li>可能系統中會存在多個Python3版本，<code>python3</code>只會指向其中一個版本（最初是預安裝的默認版本）。</li>
+<li>如果報錯，可能是因為Python3未安裝或未設置環境變量。</li>
+</ul>
+</li>
+<li><p>透過APT安裝（或更新）pip：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python3-pip</span><br></pre></td></tr></table></figure>
+<ul>
+<li>pip是Python的包管理工具。</li>
+</ul>
+</li>
+<li><p>檢查pip是否已被成功安裝：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip --version</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>表明成功安裝的輸出將與下面類似：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip &lt;version&gt; from /home/ubuntu/.<span class="built_in">local</span>/lib/python3.10/site-packages/pip (python 3.10)</span><br></pre></td></tr></table></figure>
+<p>如果報錯，可能是環境變量未正確設置，請嘗試將以下字段加入<code>~/.bashrc</code>（設置環境變量請參照<a href="/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/" title="鏈接">鏈接</a>）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH=<span class="string">"<span class="variable">$HOME</span>/.local/bin:<span class="variable">$PATH</span>"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="二、創建虛擬環境"><a href="#二、創建虛擬環境" class="headerlink" title="二、創建虛擬環境"></a>二、創建虛擬環境</h3><ol>
+<li><p>使用pip安裝virtualenv：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --user virtualenv</span><br></pre></td></tr></table></figure>
+<ul>
+<li>virtualenv用於建立項目專用的虛擬Python環境，將項目與其他項目隔離，避免不同項目間可能存在的依賴衝突。因此官方推薦將oTree項目在虛擬環境中運行。</li>
+</ul>
+</li>
+<li><p>新建一個空的虛擬環境用以安裝oTree環境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m virtualenv otree_venv</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有關該虛擬環境的具體內容將會存放在<code>otree_venv</code>文件夾中。</li>
+<li><p><code>otree_venv</code>文件夾應獨立於項目文件夾，建議把兩個文件夾都放在用戶的家目錄（即<code>/home/ubuntu</code>）。需要注意的是，以上代碼中的<code>otree_venv</code>實際上是相對路徑，所以請使用<code>pwd</code>確保您是在<code>/home/ubuntu</code>下運行的代碼，否則請改用絕對路徑的形式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m virtualenv ~/otree_venv</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>檢查虛擬環境是否已成功配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> otree_venv/bin/activate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這行命令用以激活剛才新建的虛擬環境。若先前配置正確，在命令行的最前面會出現形如<code>(otree_venv)</code>的前綴，表示現在已成功進入虛擬環境。我們將會在之後每一次啟動服務器時運行該命令。</li>
+<li>（進階）如果您認為每一次啟動服務器都需要輸入此命令過於繁複，可以將該命令加入<code>~/.bashrc</code>（設置環境變量請參照<a href="/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/" title="鏈接">鏈接</a>），這樣每次在終端登錄該用戶時，系統會自動執行該命令激活並進入虛擬環境。當您的服務器只有oTree這一個項目時，這將是一個增加操作便利的選擇。</li>
+<li>同上，請確保這行命令在家目錄執行。</li>
+<li><p>若需要退出虛擬環境，請使用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用pip在虛擬環境中安裝oTree：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install otree</span><br></pre></td></tr></table></figure>
+<ul>
+<li>請確保這行命令在虛擬環境中執行，這樣oTree庫才不會與外界有任何關聯。</li>
+</ul>
+</li>
+</ol>
+<h3 id="三、配置PostgreSQL數據庫"><a href="#三、配置PostgreSQL數據庫" class="headerlink" title="三、配置PostgreSQL數據庫"></a>三、配置PostgreSQL數據庫</h3><p>oTree默認使用SQLite作為開發環境的數據庫。SQLite作為輕量級數據庫，可以勝任大部分本地測試任務。但是，由於SQLite所有鎖實現都是基於文件鎖，一旦將項目投放至服務器進行多人在線實驗，其將會無法有效處理來自多個實驗參與者的併發訪問，可能會導致數據錯誤或丟失。</p>
+<p>因此，在實際的生產環境（高併發的多用戶環境）中，oTree建議開發者使用更穩定的PostgreSQL數據庫以替代SQLite。下面是詳細的配置步驟：</p>
+<ol>
+<li><p>透過APT安裝PostgreSQL：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install postgresql postgresql-client</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安裝完成後，系統會創建一個PostgreSQL的超級用戶，默認用戶名為<code>postgres</code>，密碼為空。</li>
+<li>此時，整個Ubuntu系統中將會有我們一直使用的<code>ubuntu</code>和數據庫相關的<code>postgres</code>兩個用戶。由於<code>ubuntu</code>並沒有訪問數據庫的權限，因此後續的操作將在<code>postgres</code>用戶中完成。</li>
+</ul>
+</li>
+<li><p>切換用戶至<code>postgres</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -i -u postgres</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意切換用戶時需要使用<code>sudo</code>前綴。</li>
+<li><p>成功切換後，終端將顯示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres@&lt;xxx&gt;:~$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用<code>psql</code>進入SQL Shell：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>之前我們的所有命令都是在Ubuntu命令行執行的，而SQL Shell則是PostgreSQL的命令行工具，它的語法與Ubuntu的命令並不相同。</li>
+<li><p>默認情況下，SQL Shell只允許<code>postgres</code>訪問。若訪問成功，會得到以下格式的輸出，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql (&lt;version&gt;)</span><br><span class="line">Type "<span class="keyword">help</span><span class="string">" for help.</span></span><br></pre></td></tr></table></figure>
+<p>然後出現</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>的字段，表明正在等待輸入一段SQL Shell命令。這類似Ubuntu中的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;username&gt;@&lt;xxx&gt;:~$</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>有時您可能會遇到<code>postgres-#</code>，這表明您已經輸入了一段SQL Shell命令的一部分，但整個命令還未結束，您需要補全命令終端才會繼續運行。發生這種情況的主要可能是遺漏了SQL Shell命令最後的分號（SQL Shell命令以分號作為結束符）。</p>
+<p>總結：<br>a. <code>postgres=#</code>：等待用戶輸入一段完整的命令。<br>b. <code>postgres-#</code>：當前已接收的輸入不完整，等待用戶繼續輸入命令的剩餘部分。</p>
+</blockquote>
+</li>
+<li><p>當您需要退出SQL Shell回到Ubuntu的Shell時，有三種方法：</p>
+<p>a. 在命令行中鍵入<code>\q</code>。<br>b. 在命令行中執行<code>exit</code>命令。<br>c. 使用鍵盤快捷鍵Ctrl+D（實質上是鍵入<code>\q</code>）。</p>
+</li>
+</ul>
+</li>
+<li><p>為<code>ubuntu</code>添加訪問PostgreSQL的權限：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">ROLE</span> ubuntu <span class="keyword">WITH</span> LOGIN SUPERUSER <span class="keyword">PASSWORD</span> <span class="string">'&lt;your_password&gt;'</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在這一步，我們實際上是在PostgreSQL中創建了一個同名的<code>ubuntu</code>用戶，而PostgreSQL會自動將Ubuntu和PostgreSQL的同名用戶聯繫起來。</li>
+<li><p>輸出<code>CREATE ROLE</code>表示成功添加。此時輸入<code>\du</code>檢查PostgreSQL現有所有用戶，將會得到類似以下輸出：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">                                   List of roles</span><br><span class="line"> Role name |                         Attributes                         | Member of </span><br><span class="line"><span class="comment">-----------+------------------------------------------------------------+-----------</span></span><br><span class="line"> postgres  | Superuser, <span class="keyword">Create</span> <span class="keyword">role</span>, <span class="keyword">Create</span> DB, <span class="keyword">Replication</span>, Bypass RLS | &#123;&#125;</span><br><span class="line"> ubuntu    | Superuser                                                  | &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>創建oTree項目將使用的數據庫：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> otree_db</span><br></pre></td></tr></table></figure>
+<ul>
+<li>輸出<code>CREATE ROLE</code>表示成功創建。因為我們給與了<code>ubuntu</code>超級用戶的權限，它將可以直接訪問<code>otree_db</code>。</li>
+<li><p>輸入<code>\l</code>檢查PostgreSQL現有所有數據庫，將會得到類似以下輸出：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">                                  List of databases</span><br><span class="line">   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   </span><br><span class="line"><span class="comment">-----------+----------+----------+-------------+-------------+-----------------------</span></span><br><span class="line"> postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |</span><br><span class="line"> otree_db  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>至此，我們已經完成了在SQL Shell中的所有初期設置。現在，退出SQL Shell並返回用戶<code>ubuntu</code>，檢查是否已與PostgreSQL數據庫連結：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U ubuntu -d otree_db</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這行命令的意義在於使用<code>ubuntu</code>用戶連結至PostgreSQL的<code>otree_db</code>數據庫，其中：<br>a. <code>-U ubuntu</code>指定用於連結的PostgreSQL用戶。<br>b. <code>-d otree_db</code>指定要連結的數據庫名稱。</li>
+<li>成功執行該命令將會進入SQL Shell，得到類似第3步的輸出。</li>
+</ul>
+</li>
+<li><p>使用pip在虛擬環境中安裝psycopg2：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --user psycopg2</span><br></pre></td></tr></table></figure>
+<ul>
+<li>請確保這行命令在虛擬環境中執行。</li>
+<li>PostgreSQL數據庫本身是與Python無關的。要使基於Python的oTree與PostgreSQL連結，需要使用psycopg2，一個用於連結PostgreSQL的Python庫。它提供了一組函數和方法，允許用戶在Python程序中對數據庫進行各種操作。</li>
+<li>當然，對數據庫進行操作的部分已包裝在oTree內部的底層代碼中，我們並不需要手動實現這些內容。</li>
+</ul>
+</li>
+</ol>
+<h3 id="四、設置環境變量"><a href="#四、設置環境變量" class="headerlink" title="四、設置環境變量"></a>四、設置環境變量</h3><p>oTree引入了一些環境變量用以改變實驗的某些參數。在本文中，我們至少需要修改以下四個環境變量：</p>
+<ol>
+<li><code>DATABASE_URL</code>：數據庫的url，將值設置為<code>postgres://ubuntu:&lt;your_password&gt;@localhost/otree_db</code>。<ul>
+<li>這一步使我們的oTree項目與PostgreSQL的<code>otree_db</code>數據庫連結。</li>
+<li>這一段url的解釋如下：<br>a. <code>postgres://</code>：數據庫的協議。<br>b. <code>ubuntu:&lt;your_password&gt;@</code>：連結數據庫的用戶名和密碼。<br>c. <code>localhost</code>：數據庫所在主機地址，<code>localhost</code>表明數據庫運行在本地服務器。<br>d. <code>otree_db</code>：連結的數據庫的名稱。   </li>
+</ul>
+</li>
+<li><code>OTREE_PRODUCTION</code>：決定oTree是否以生產模式運行，將值設置為<code>1</code>。<ul>
+<li>可選值包括<code>0</code>（默認，開發模式）和<code>1</code>（生產模式）。</li>
+<li>在生產模式下，實驗參與者的頁面將不會出現Debug Info，且報錯時不會在頁面顯示錯誤信息。鑒於實驗參與者可能在Debug Info或錯誤信息中獲知系統的某些敏感信息，為了系統的安全，在正式實驗時請務必使用生產模式。</li>
+</ul>
+</li>
+<li><code>OTREE_AUTH_LEVEL</code>：決定oTree的訪問控制級別，將值設置為<code>STUDY</code>。<ul>
+<li>默認情況下值為<code>DEMO</code>，此時任何人均可訪問實驗頁面。值為<code>STUDY</code>時系統將會使用密碼驗證用戶，適合在實際實驗時使用。</li>
+</ul>
+</li>
+<li><code>OTREE_ADMIN_PASSWORD</code>：系統使用的密碼，格式是字符串。<ul>
+<li>您應該設置系統的密碼以防止實驗參與者進入系統管理頁面。</li>
+</ul>
+</li>
+</ol>
+<p>設置環境變量的方法請參照<a href="/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/" title="鏈接">鏈接</a>，以上變量均設置為用戶變量即可。</p>
+<h3 id="五、使用Git進行項目文件傳輸"><a href="#五、使用Git進行項目文件傳輸" class="headerlink" title="五、使用Git進行項目文件傳輸"></a>五、使用Git進行項目文件傳輸</h3><p>最後，我們需要將自己電腦上的oTree項目上傳至服務器。考慮到我們會不斷地對項目進行微調更新版本，並在服務器端同步版本，最好的方法是使用Git實現文件傳輸。</p>
+<ul>
+<li>建議這一步將項目文件夾放置在家目錄下。</li>
+</ul>
+<p>Git及平臺（例如Github）的使用因與本文內容無太大關聯，故不在此作詳細說明。若有需要，請參考互聯網上的教程。</p>
+<h3 id="六、最後檢查"><a href="#六、最後檢查" class="headerlink" title="六、最後檢查"></a>六、最後檢查</h3><ol>
+<li><p>完成以上所有步驟後，用戶的家目錄應該會存在兩個文件夾（在家目錄使用<code>ls</code>查看）：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree_project  otree_venv</span><br></pre></td></tr></table></figure>
+<p> 前者是項目文件夾（假設文件夾名為<code>otree_project</code>），透過Git管理；後者是專為項目配置的虛擬環境的文件夾，裡面是與虛擬環境相關的文件。</p>
+</li>
+<li><p>激活虛擬環境，進入<code>otree_project</code>並執行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree</span><br></pre></td></tr></table></figure>
+<p>檢查oTree是否成功安裝。若出現包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Command &#39;otree&#39; not found</span><br></pre></td></tr></table></figure>
+<p>的輸出，說明oTree並未成功安裝在虛擬環境中。</p>
+</li>
+<li><p>繼續執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree resetdb</span><br></pre></td></tr></table></figure>
+<p>檢查oTree是否與PostgreSQL成功連結。若沒有報錯且返回包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Database engine: postgresql</span><br></pre></td></tr></table></figure>
+<p>的字段，說明PostgreSQL已配置成功。若出現報錯，請檢查環境變量<code>DATABASE_URL</code>是否成功設置。</p>
+</li>
+<li><p>最後，執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree prodserver</span><br></pre></td></tr></table></figure>
+<p>oTree成功運行後，進入實驗網頁並登錄管理員賬號。（這裡的詳細操作方法參見下一部分的第6、7步）</p>
+<p>點擊「Server Check」檢查服務器配置是否完善。</p>
+<ul>
+<li>第一行輸出項目的oTree版本。</li>
+<li>第二行和第三行的內容是在「環境變量」部分設置的。</li>
+<li>第四行表明我們已成功將Postgres與項目連結。由於oTree官方推薦使用Postgres，因此若使用默認的SQLite此處會出現警告。</li>
+</ul>
+<center class="half">
+   <img style="border-radius: 0em;
+   box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+   src="server_check.jpg" width = "100%" alt=""/>
+   <br>
+      <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+      display: inline-block;
+      color: #999;
+      padding: 2px;">
+      正常情況的顯示
+      </div>
+   <br>
+</center>
+<br>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="server_check_warning.jpg" width = "100%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+    可能出現的警告
+      </div>
+      <br>
+</center>
+
+</li>
+</ol>
+<h2 id="每次進行實驗前的準備"><a href="#每次進行實驗前的準備" class="headerlink" title="每次進行實驗前的準備"></a>每次進行實驗前的準備</h2><p>在完成以上一系列的配置後，我們便可以正式發佈實驗了。以下是每次進行實驗前需要完成的步驟：</p>
+<ol>
+<li><p>登錄服務器（方法見上），並檢查用戶名是否為之前配置時使用的用戶名。</p>
+</li>
+<li><p>激活虛擬環境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> otree_venv/bin/activate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若您在先前的配置中已將該命令加入用戶變量，則略過這一步。</li>
+</ul>
+</li>
+<li><p>進入項目文件夾：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> otree_project/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新項目版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如果服務器上的項目版本已是最新，執行該命令會輸出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Already up to date.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>重置項目數據庫：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree resetdb</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>此時會收到來自oTree的提醒：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This will delete and recreate your database. </span><br><span class="line">Proceed? (y or n):</span><br></pre></td></tr></table></figure>
+<p>輸入y後回車即可。之後oTree將會輸出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Database engine: postgresql</span><br><span class="line">Created new tables and columns.</span><br></pre></td></tr></table></figure>
+<p>表明數據庫已成功重置。</p>
+</li>
+</ul>
+<ul>
+<li>注意：這一步會刪除以前所有得到的數據，請在保證所有數據均已下載備份後再執行此命令。</li>
+</ul>
+</li>
+<li><p>運行oTree：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree prodserver</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>與在本地開啟測試的<code>otree devserver</code>類似，默認情況下，該命令會將oTree运行在8000端口。如果您想在其他端口運行，請在命令後加上端口號，例如80端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otree prodserver 80</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意：無論選擇在哪個端口運行，都需要在騰訊雲的服務器管理頁面（見下圖）令防火牆允許外部IP對該端口的訪問，這樣實驗參與者才有訪問實驗的權限。</p>
+<center class="half">
+   <img style="border-radius: 0em;
+   box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+   src="server_firewall.jpg" width = "100%" alt=""/>
+   <br>
+</center>
+</li>
+</ul>
+</li>
+<li><p>成功運行oTree後，終端會顯示如下字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Running prodserver</span><br><span class="line">timeoutworker is listening for messages through DB</span><br></pre></td></tr></table></figure>
+<p>此時就可以透過網址進入實驗網頁了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;&lt;ip_address&gt;:&lt;port&gt;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>&lt;ip_address&gt;</code>是服務器的公網IP，<code>&lt;port&gt;</code>是上一步開啟的端口。</p>
+<ul>
+<li><p>HTTP協議的默認端口是80，因此如果上一步開啟了80端口，網址中可以省略端口號：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;&lt;ip_address&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>由於我們在「環境變量」一步設置了服務器的管理員密碼，因此進入實驗網頁後我們會遇到以下畫面：</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="otree_login.jpg" width = "60%" alt=""/>
+    <br>
+</center>
+
+<p>默認情況下，Username是<code>admin</code>，Password是環境變量中<code>OTREE_ADMIN_PASSWORD</code>的值。</p>
+<p>成功登錄後，頁面上部會出現「Logout」字樣。</p>
+<center class="half">
+    <img style="border-radius: 0em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="otree_logout.jpg" width = "75%" alt=""/>
+    <br>
+</center>
+</li>
+<li><p>當需要關閉實驗的時候，直接在運行實驗的終端按Ctrl+C鍵即可。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author：</strong>
+    Chung
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link：</strong>
+    <a href="https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/" title="oTree經驗與技巧（一） 服務器端設置">https://c0mm1e.github.io/2024/12/15/oTree%E7%B6%93%E9%A9%97%E8%88%87%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89-%E6%9C%8D%E5%8B%99%E5%99%A8%E7%AB%AF%E8%A8%AD%E7%BD%AE/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice： </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/%E5%85%A8%E6%A3%A7/" rel="tag"># 全棧</a>
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/oTree/" rel="tag"># oTree</a>
+          
+            <a href="/tags/%E6%9C%8D%E5%8B%99%E5%99%A8/" rel="tag"># 服務器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/12/04/%E5%9C%A8Linux%E4%B8%8A%E8%A8%AD%E7%BD%AE%E7%92%B0%E5%A2%83%E8%AE%8A%E9%87%8F/" rel="next" title="在Linux上設置環境變量">
+                <i class="fa fa-chevron-left"></i> 在Linux上設置環境變量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chung" />
+            
+              <p class="site-author-name" itemprop="name">Chung</p>
+              <p class="site-description motion-element" itemprop="description">ご訪問を歓迎する</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/c0mm1e" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:chungmy28@gmail.com" target="_blank" title="Email">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>Email</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://bgm.tv/user/c0mm1e" target="_blank" title="Bangumi">
+                      
+                        <i class="fa fa-fw fa-comment"></i>Bangumi</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.reddit.com/r/chonglangTV" title="永不陷落的堡壘(test)" target="_blank">永不陷落的堡壘(test)</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#oTree介紹"><span class="nav-number">1.1.</span> <span class="nav-text">oTree介紹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新舊版本差異"><span class="nav-number">1.2.</span> <span class="nav-text">新舊版本差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用版本"><span class="nav-number">1.3.</span> <span class="nav-text">使用版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#準備服務器"><span class="nav-number">2.</span> <span class="nav-text">準備服務器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#登錄服務器"><span class="nav-number">2.1.</span> <span class="nav-text">登錄服務器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服務器端操作"><span class="nav-number">3.</span> <span class="nav-text">服務器端操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服務器配置（一次性）"><span class="nav-number">3.1.</span> <span class="nav-text">服務器配置（一次性）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、安裝pip"><span class="nav-number">3.1.1.</span> <span class="nav-text">一、安裝pip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、創建虛擬環境"><span class="nav-number">3.1.2.</span> <span class="nav-text">二、創建虛擬環境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、配置PostgreSQL數據庫"><span class="nav-number">3.1.3.</span> <span class="nav-text">三、配置PostgreSQL數據庫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、設置環境變量"><span class="nav-number">3.1.4.</span> <span class="nav-text">四、設置環境變量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、使用Git進行項目文件傳輸"><span class="nav-number">3.1.5.</span> <span class="nav-text">五、使用Git進行項目文件傳輸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、最後檢查"><span class="nav-number">3.1.6.</span> <span class="nav-text">六、最後檢查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#每次進行實驗前的準備"><span class="nav-number">3.2.</span> <span class="nav-text">每次進行實驗前的準備</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
